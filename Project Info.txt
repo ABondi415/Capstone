@@ -1,0 +1,8 @@
+SWENG 894 Capstone Project Information and Resources
+
+Visual Studio Team Services Project Location
+    https://kgower.visualstudio.com/_git/Capstone
+
+Team Documentation Location on OneDrive
+    https://1drv.ms/f/s!AkUKv4uyPcG5gRDVhylTBqekT7A4
+
