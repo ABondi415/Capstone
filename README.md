@@ -1,9 +1,10 @@
 # Introduction 
 Project for Penn State SWENG 894 Capstone Project, Summer 2018
-<<<<<<< HEAD
-Professor: Laplante
 
 The project will consist of a web application to track/organize tasks. The project will also incorporate a chatbot voice interface. A zombie theme will be integrated to make the program more fun and interesting.
+
+Professor: Laplante
+
 =======
 
 # Getting Started
