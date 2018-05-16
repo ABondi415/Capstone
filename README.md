@@ -6,9 +6,6 @@ Professor: Laplante
 The project will consist of a web application to track/organize tasks. The project will also incorporate a chatbot voice interface. A zombie theme will be integrated to make the program more fun and interesting.
 =======
 
-Professor: Laplante
->>>>>>> 2896c674341529ee9abe58266c5e236b09368e36
-
 # Getting Started
 TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
 1.	Installation process
