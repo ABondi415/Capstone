@@ -1,0 +1,47 @@
+{
+  "name": "capstone-server",
+  "description": "Server and orchistration engine for zombie chatbot task manager application",
+  "version": "0.0.1",
+  "private": true,
+  "author": "ajb481",
+  "repository": {
+    "type": "git",
+    "url": "https://kgower.visualstudio.com/_git/Capstone"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "scripts": {
+    "deploy": "gcloud app deploy",
+    "start": "node app.js",
+    "lint": "repo-tools lint",
+    "pretest": "npm run lint",
+    "unit-test": "jest",
+    "system-test": "repo-tools test app",
+    "test": "npm run system-test",
+    "e2e-test": "repo-tools test deploy"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "dialogflow": "^0.4.0",
+    "express": "4.16.2",
+    "moment": "^2.22.1",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "@google-cloud/nodejs-repo-tools": "2.2.1",
+    "jest": "^22.4.4",
+    "proxyquire": "^2.0.1",
+    "sinon": "^5.0.7",
+    "supertest": "^3.1.0"
+  },
+  "cloud-repo-tools": {
+    "test": {
+      "app": {
+        "msg": "Hello, world!"
+      }
+    },
+    "requiresKeyFile": true,
+    "requiresProjectId": true
+  }
+}
