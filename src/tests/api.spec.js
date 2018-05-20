@@ -1,3 +1,5 @@
+'use strict';
+
 describe('Router', () => {
   const express = require('express');
   const supertest = require('supertest');

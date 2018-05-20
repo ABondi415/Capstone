@@ -1,3 +1,5 @@
+'use strict';
+
 describe('Logger Service', () => {
   const sinon = require('sinon');
 
