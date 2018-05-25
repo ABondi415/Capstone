@@ -30,3 +30,6 @@ If you want to learn more about creating good readme files then refer the follow
 
 # To run tests
 npm run-script unit-test
+
+# important commands
+gcloud auth application-default login

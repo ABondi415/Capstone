@@ -19,7 +19,7 @@ describe('Logger Service', () => {
     sandbox.restore();
   });
 
-  it('should create the service', () => {
+  it('should initialize', () => {
     expect(loggerService).toBeDefined();
   });
 
