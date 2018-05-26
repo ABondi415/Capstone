@@ -2,6 +2,7 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const api = require('./server/routes/api');
 
@@ -12,7 +13,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/api', api);
 
+app.use(express.static(path.join(__dirname, 'dist')));
+
 // Custom middleware for handling responses
+// Do not remove next.  It is necessary for server
 app.use((data, request, response, next) => {
   const httpResponseCode = data.Error ? 500 : 200;
   response.writeHead(httpResponseCode, { 'Content-Type': 'application/json' });
@@ -22,8 +26,8 @@ app.use((data, request, response, next) => {
 });
 
 // Respond with forbidden to requests to root directory
-app.get('/', (request, response) => {
-  response.status(403).end();
+app.get('*', (request, response) => {
+  response.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
 // Start the server
