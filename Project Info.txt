@@ -5,7 +5,3 @@ Visual Studio Team Services Project Location
 
 Team Documentation Location on OneDrive
     https://1drv.ms/f/s!AkUKv4uyPcG5gRDVhylTBqekT7A4
-
-test
-
-test from MW

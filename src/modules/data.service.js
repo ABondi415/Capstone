@@ -3,12 +3,13 @@
 const Datastore = require('@google-cloud/datastore');
 
 const logger = require('../modules/logger.service');
+const appEnvService = require('../modules/app-env.service');
 
 const ds = new Datastore({
-  projectId: 'penn-state-capstone',
+  projectId: appEnvService.getVariable('PROJECT_ID'),
 });
 
-let service = {};
+const service = {};
 
 // Generate a unique identifier based on the entities kind
 service.generateKey = (kind) => {
@@ -53,6 +54,6 @@ service.delete = async (key) => {
   catch (err) {
     logger.error(`gcloud datastore delete error: ${err}`);
   }
-}
+};
 
 module.exports = service;

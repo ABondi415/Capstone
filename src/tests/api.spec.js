@@ -7,8 +7,8 @@ describe('Router', () => {
   let request;
 
   beforeEach(() => {
-    let app = express();
-    let api = require('../routes/api');
+    const app = express();
+    const api = require('../routes/api');
     app.use('/api', api);
     request = supertest(app);
   });

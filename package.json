@@ -25,12 +25,15 @@
     "@google-cloud/datastore": "^1.4.0",
     "body-parser": "^1.18.3",
     "dialogflow": "^0.4.0",
+    "dotenv": "^5.0.1",
     "express": "4.16.2",
     "moment": "^2.22.1",
     "uuid": "^3.2.1"
   },
   "devDependencies": {
     "@google-cloud/nodejs-repo-tools": "2.2.1",
+    "eslint": "^4.19.1",
+    "eslint-plugin-jest": "^21.15.2",
     "jest": "^22.4.4",
     "proxyquire": "^2.0.1",
     "sinon": "^5.0.7",

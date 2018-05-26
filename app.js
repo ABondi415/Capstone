@@ -13,11 +13,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api', api);
 
 // Custom middleware for handling responses
-app.use((data, request, response, next) => {
-  let httpResponseCode = data.Error ? 500 : 200;
+app.use((data, request, response) => {
+  const httpResponseCode = data.Error ? 500 : 200;
   response.writeHead(httpResponseCode, { 'Content-Type': 'application/json' });
 
-  let responseString = JSON.stringify(data);
+  const responseString = JSON.stringify(data);
   response.end(responseString);
 });
 

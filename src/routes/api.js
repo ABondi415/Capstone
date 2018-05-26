@@ -8,11 +8,11 @@ const router = express.Router();
 const logger = require('../modules/logger.service');
 
 router.get('/healthCheck', (request, response, next) => {
-    let loggingId = logger.generateId();
-    let timestamp = moment().format(logger.timestampFormat);
-    logger.info(`health check`);
+  const loggingId = logger.generateId();
+  const timestamp = moment().format(logger.timestampFormat);
+  logger.info('health check', loggingId, timestamp);
 
-    next({ response: 'success' });
+  next({ response: 'success' });
 });
 
 module.exports = router;
