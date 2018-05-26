@@ -3,7 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const api = require('./src/routes/api');
+const api = require('./server/routes/api');
 
 const app = express();
 
@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api', api);
 
 // Custom middleware for handling responses
-app.use((data, request, response) => {
+app.use((data, request, response, next) => {
   const httpResponseCode = data.Error ? 500 : 200;
   response.writeHead(httpResponseCode, { 'Content-Type': 'application/json' });
 
