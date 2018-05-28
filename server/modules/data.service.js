@@ -56,4 +56,14 @@ service.delete = async (key) => {
   }
 };
 
+service.readAll = async () => {
+  try{
+    const query = ds.createQuery('Task');
+    return ds.runQuery(query);
+  }
+  catch (err) {
+    logger.error('gcloud datastore readAll error: ${err}')
+  }
+}
+
 module.exports = service;
