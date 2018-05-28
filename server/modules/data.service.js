@@ -23,6 +23,7 @@ service.create = async (entity) => {
   }
   catch (err) {
     logger.error(`gcloud datastore create error: ${err}`);
+    return { Error: err };
   }
 };
 
@@ -33,6 +34,7 @@ service.read = async (key) => {
   }
   catch (err) {
     logger.error(`gcloud datastore read error: ${err}`);
+    return { Error: err };
   }
 };
 
@@ -43,6 +45,7 @@ service.update = async (entity) => {
   }
   catch (err) {
     logger.error(`gcloud datastore update error: ${err}`);
+    return { Error: err };
   }
 };
 
@@ -53,17 +56,19 @@ service.delete = async (key) => {
   }
   catch (err) {
     logger.error(`gcloud datastore delete error: ${err}`);
+    return { Error: err };
   }
 };
 
 service.readAll = async () => {
-  try{
+  try {
     const query = ds.createQuery('Task');
     return ds.runQuery(query);
   }
   catch (err) {
-    logger.error('gcloud datastore readAll error: ${err}')
+    logger.error(`gcloud datastore readAll error: ${err}`);
+    return { Error: err };
   }
-}
+};
 
 module.exports = service;

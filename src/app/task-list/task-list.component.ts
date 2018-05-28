@@ -11,18 +11,25 @@ import { Task } from '../model/task';
 })
 export class TaskListComponent implements OnInit {
 
+  taskList: Array<Task> = [];
+  newTaskDescription: string = "";
+
   constructor(private httpService: HttpService) { }
 
   ngOnInit() {
-    let task = new Task();
-    task.id = 1234;
-    task.description = "Test task"
-
-    console.log(task);
-
-    this.httpService.addTask(task).then(response => {
-      // do something
+    this.httpService.getTasks().then(tasks => {
+      this.taskList = tasks;
+      console.log(this.taskList);
     });
   }
 
+  addTask(): void {
+    if (this.newTaskDescription.length === 0) return;
+
+    let newTask = new Task(null, null, this.newTaskDescription);
+    this.httpService.addTask(newTask).then(task => {
+      this.taskList.push(task);
+      this.newTaskDescription = "";
+    });
+  }
 }

@@ -16,30 +16,26 @@ router.get('/healthCheck', (request, response, next) => {
   next({ response: 'success' });
 });
 
-router.post('/task', (request, response, next) => {
+router.post('/task', async (request, response, next) => {
   const loggingId = logger.generateId();
   const timestamp = moment().format(logger.timestampFormat);
   logger.info('Adding new task', loggingId, timestamp);
 
   const task = request.body;
 
-  taskService.addTask(task);
+  const result = await taskService.addTask(task);
 
-  next({ response: 'success' });
+  next(result);
 });
 
-router.get('/task', (request, response, next) => {
+router.get('/tasks', async (request, response, next) => {
   const loggingId = logger.generateId();
   const timestamp = moment().format(logger.timestampFormat);
-  logger.info('retrieving all task', loggingId, timestamp)
+  logger.info('Retrieving all tasks', loggingId, timestamp);
 
-  taskService.getTasks()
-    .then( results => {
-      next({response: results[0]})
-    })
-    .catch((err) => {
-      logger.error('Error retreiving tasks: ${err}')
-    });
-})
+  const result = await taskService.getTasks();
+
+  next(result);
+});
 
 module.exports = router;

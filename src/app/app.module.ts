@@ -1,9 +1,18 @@
+// Angular Modules
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
 
+// Angular Material Modules
+import { MatListModule } from '@angular/material/list';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+
+// Custom Modules
 import { AppComponent } from './app.component';
 import { TaskListComponent } from './task-list/task-list.component';
-import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -12,7 +21,12 @@ import { HttpModule } from '@angular/http';
   ],
   imports: [
     BrowserModule,
-    HttpModule
+    BrowserAnimationsModule,
+    HttpModule,
+    FormsModule,
+    MatListModule,
+    MatInputModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
