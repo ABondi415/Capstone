@@ -28,4 +28,18 @@ router.post('/task', (request, response, next) => {
   next({ response: 'success' });
 });
 
+router.get('/task', (request, response, next) => {
+  const loggingId = logger.generateId();
+  const timestamp = moment().format(logger.timestampFormat);
+  logger.info('retrieving all task', loggingId, timestamp)
+
+  taskService.getTasks()
+    .then( results => {
+      next({response: results[0]})
+    })
+    .catch((err) => {
+      logger.error('Error retreiving tasks: ${err}')
+    });
+})
+
 module.exports = router;

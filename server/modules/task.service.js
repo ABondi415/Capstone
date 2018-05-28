@@ -12,5 +12,8 @@ service.addTask = (task) => {
   dataService.create(entity);
 };
 
+service.getTasks = () => {
+  return dataService.readAll();
+}
 
 module.exports = service;
