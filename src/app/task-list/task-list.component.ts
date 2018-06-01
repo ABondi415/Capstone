@@ -17,10 +17,7 @@ export class TaskListComponent implements OnInit {
   constructor(private httpService: HttpService) { }
 
   ngOnInit() {
-    this.httpService.getTasks().then(tasks => {
-      this.taskList = tasks;
-      console.log(this.taskList);
-    });
+    this.httpService.getTasks().then(tasks =>  this.taskList = tasks);
   }
 
   addTask(): void {
