@@ -28,7 +28,7 @@ router.post('/task', async (request, response, next) => {
   next(result);
 });
 
-router.get('/tasks', async (request, response, next) => {
+router.get('/task', async (request, response, next) => {
   const loggingId = logger.generateId();
   const timestamp = moment().format(logger.timestampFormat);
   logger.info('Retrieving all tasks', loggingId, timestamp);
