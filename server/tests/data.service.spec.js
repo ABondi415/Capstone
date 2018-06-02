@@ -1,7 +1,21 @@
 'use strict';
 
 describe('Data Service', () => {
-  const dataService = require('../modules/data.service');
+  const sinon = require('sinon');
+
+  let sandbox;
+  let dataService;
+
+  beforeAll(() => {
+    sandbox = sinon.createSandbox();
+    sandbox.stub(console, 'info');
+
+    dataService = require('../modules/data.service');
+  });
+
+  afterAll(() => {
+    sandbox.restore();
+  });
 
   it('should initialize', () => {
     expect(dataService).toBeDefined();
@@ -35,7 +49,7 @@ describe('Data Service', () => {
     // Create
     result = await dataService.create(entity);
     expect(result).toBeDefined();
-    expect(result.length).toHaveLength(1);
+    expect(result).toHaveLength(1);
 
     // Read
     result = await dataService.read(testKey);
@@ -46,7 +60,7 @@ describe('Data Service', () => {
     entity.data.description = 'Update Test';
     result = await dataService.update(entity);
     expect(result).toBeDefined();
-    expect(result.length).toHaveLength(1);
+    expect(result).toHaveLength(1);
 
     // Verify Update
     result = await dataService.read(testKey);
@@ -56,6 +70,6 @@ describe('Data Service', () => {
     // Delete
     result = await dataService.delete(testKey);
     expect(result).toBeDefined();
-    expect(result.length).toHaveLength(1);
+    expect(result).toHaveLength(1);
   });
 });

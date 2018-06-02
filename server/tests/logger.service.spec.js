@@ -8,11 +8,14 @@ describe('Logger Service', () => {
   let errorStub;
   let loggerService;
 
-  beforeEach(() => {
+  beforeAll(() => {
     sandbox = sinon.createSandbox();
+    loggerService = require('../modules/logger.service');
+  });
+
+  beforeEach(() => {
     infoStub = sandbox.stub(console, 'info');
     errorStub = sandbox.stub(console, 'error');
-    loggerService = require('../modules/logger.service');
   });
 
   afterEach(() => {
@@ -27,7 +30,7 @@ describe('Logger Service', () => {
     const id = loggerService.generateId();
 
     expect(id).toBeDefined();
-    expect(id.length).toHaveLength(32);
+    expect(id).toHaveLength(32);
   });
 
   it('should log an info message with given id and timestamp', () => {
@@ -53,7 +56,7 @@ describe('Logger Service', () => {
     expect(infoStub.getCall(0).args[0].endsWith(message)).toBeTruthy();
 
     // Length of Guid (32) + Length of Timestamp (22) + Length of message (4) + spaces & colon (3) = 61
-    expect(infoStub.getCall(0).args[0].length).toHaveLength(61);
+    expect(infoStub.getCall(0).args[0]).toHaveLength(61);
     expect(errorStub.notCalled).toBeTruthy();
   });
 
@@ -80,7 +83,7 @@ describe('Logger Service', () => {
     expect(errorStub.getCall(0).args[0].endsWith(message)).toBeTruthy();
 
     // Length of Guid (32) + Length of Timestamp (22) + Length of message (4) + spaces & colon (3) = 61
-    expect(errorStub.getCall(0).args[0].length).toHaveLength(61);
+    expect(errorStub.getCall(0).args[0]).toHaveLength(61);
     expect(infoStub.notCalled).toBeTruthy();
   });
 });

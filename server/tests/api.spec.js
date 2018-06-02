@@ -1,8 +1,20 @@
 'use strict';
 
 describe('Router', () => {
+  const sinon = require('sinon');
   const express = require('express');
   const supertest = require('supertest');
+
+  let sandbox;
+
+  beforeAll(() => {
+    sandbox = sinon.createSandbox();
+    sandbox.stub(console, 'info');
+  });
+
+  afterAll(() => {
+    sandbox.restore();
+  });
 
   let request;
 
@@ -17,6 +29,7 @@ describe('Router', () => {
     request
       .get('/api/healthCheck')
       .expect('Content-Type', 'application/json')
-      .expect(200);
+      .expect(200)
+      .end((err, res) => {});
   });
 });

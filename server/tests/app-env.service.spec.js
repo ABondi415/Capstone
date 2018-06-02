@@ -1,5 +1,19 @@
 describe('App Environment Service', () => {
-  const appEnvService = require('../modules/app-env.service');
+  const sinon = require('sinon');
+
+  let sandbox;
+  let appEnvService;
+
+  beforeAll(() => {
+    sandbox = sinon.createSandbox();
+    sandbox.stub(console, 'info');
+
+    appEnvService = require('../modules/app-env.service');
+  });
+
+  afterAll(() => {
+    sandbox.restore();
+  });
 
   it('should initialize', () => {
     expect(appEnvService).toBeDefined();
