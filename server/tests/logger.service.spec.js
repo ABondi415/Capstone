@@ -8,11 +8,14 @@ describe('Logger Service', () => {
   let errorStub;
   let loggerService;
 
-  beforeEach(() => {
+  beforeAll(() => {
     sandbox = sinon.createSandbox();
+    loggerService = require('../modules/logger.service');
+  });
+
+  beforeEach(() => {
     infoStub = sandbox.stub(console, 'info');
     errorStub = sandbox.stub(console, 'error');
-    loggerService = require('../modules/logger.service');
   });
 
   afterEach(() => {

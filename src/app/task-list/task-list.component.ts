@@ -17,14 +17,14 @@ export class TaskListComponent implements OnInit {
   constructor(private httpService: HttpService) { }
 
   ngOnInit() {
-    this.httpService.getTasks().then(tasks =>  this.taskList = tasks);
+    this.httpService.getTasks().subscribe(tasks =>  this.taskList = tasks);
   }
 
   addTask(): void {
     if (this.newTaskDescription.length === 0) return;
 
     let newTask = new Task(null, null, this.newTaskDescription);
-    this.httpService.addTask(newTask).then(task => {
+    this.httpService.addTask(newTask).subscribe(task => {
       this.taskList.push(task);
       this.newTaskDescription = "";
     });

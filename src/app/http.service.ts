@@ -1,36 +1,40 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, Response } from '@angular/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { Task } from './model/task';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
-  private apiUrl = '/api';
-  private headers = new Headers({ 'Content-Type': 'application/json' });
+  private taskUrl = 'api/task';
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
-  addTask(task: Task): Promise<Task> {
-    console.log(JSON.stringify(task));
-    return this.http
-      .post(this.apiUrl + '/task', JSON.stringify(task), { headers: this.headers })
-      .toPromise()
-      .then((response: Response) => { return response.json(); })
-      .catch(this.handleError);
+  getTasks(): Observable<Task[]> {
+    return this.http.get<Task[]>(this.taskUrl, httpOptions)
+      .pipe(
+        catchError(this.handleError<Task[]>('getTasks', []))
+      );
   };
 
-  getTasks(): Promise<Task[]> {
-    return this.http
-      .get(this.apiUrl + '/tasks', { headers: this.headers })
-      .toPromise()
-      .then((response: Response) => { return response.json(); })
-      .catch(this.handleError);
+  addTask(task: Task): Observable<Task> {
+    return this.http.post<Task>(this.taskUrl, httpOptions)
+      .pipe(
+        catchError(this.handleError<Task>('addTask'))
+      );
   };
 
-  handleError(error: any): Promise<any> {
-    console.error('Error', error);
-    return Promise.reject(error.message || error);
-  };
+  private handleError<T> (operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error);
+      return of(result as T);
+    };
+  }
 }

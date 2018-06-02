@@ -1,7 +1,21 @@
 'use strict';
 
 describe('Data Service', () => {
-  const dataService = require('../modules/data.service');
+  const sinon = require('sinon');
+
+  let sandbox;
+  let dataService;
+
+  beforeAll(() => {
+    sandbox = sinon.createSandbox();
+    sandbox.stub(console, 'info');
+
+    dataService = require('../modules/data.service');
+  });
+
+  afterAll(() => {
+    sandbox.restore();
+  });
 
   it('should initialize', () => {
     expect(dataService).toBeDefined();
