@@ -25,7 +25,7 @@ export class HttpService {
   };
 
   addTask(task: Task): Observable<Task> {
-    return this.http.post<Task>(this.taskUrl, httpOptions)
+    return this.http.post<Task>(this.taskUrl, task, httpOptions)
       .pipe(
         catchError(this.handleError<Task>('addTask'))
       );
