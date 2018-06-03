@@ -13,11 +13,13 @@ import { MatButtonModule } from '@angular/material/button';
 // Custom Modules
 import { AppComponent } from './app.component';
 import { TaskListComponent } from './task-list/task-list.component';
+import { GameComponent } from './game/game.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TaskListComponent
+    TaskListComponent,
+    GameComponent
   ],
   imports: [
     BrowserModule,
