@@ -76,7 +76,7 @@
   },
   "jest": {
     "preset": "jest-preset-angular",
-    "roots": [ "<rootDir>/src/"],
+    "roots": [ "<rootDir>"],
     "setupTestFrameworkScriptFile": "<rootDir>/src/setup-jest.ts"
 }
 }
