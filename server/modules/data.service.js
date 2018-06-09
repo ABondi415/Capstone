@@ -12,8 +12,8 @@ const ds = new Datastore({
 const service = {};
 
 // Generate a unique identifier based on the entities kind
-service.generateKey = (kind) => {
-  return ds.key(kind);
+service.getDataStoreKey = (kind, id) => {
+  return ds.key([ kind, id ]);
 };
 
 service.create = async (entity) => {

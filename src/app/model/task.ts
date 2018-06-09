@@ -1,6 +1,7 @@
 export class Task {
   constructor(
-    public id: number,
+    public id: string,
     public dueDate: Date,
-    public description: string) { }
+    public description: string,
+    public selected: boolean) { }
 }

@@ -31,6 +31,15 @@ export class HttpService {
       );
   };
 
+  deleteTask(task: Task): Observable<string> {
+    const url = `${this.taskUrl}/${task.id}`;
+
+    return this.http.delete<string>(url, httpOptions)
+      .pipe(
+        catchError(this.handleError<string>('deleteTask'))
+      );
+  };
+
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);

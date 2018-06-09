@@ -5,11 +5,14 @@
   <div id="add-button-container">
     <button (click)="addTask()" mat-raised-button color="primary">Add</button>
   </div>
+  <div id="delete-button-container">
+    <button (click)="deleteTasks()" mat-raised-button color="secondary">Delete</button>
+  </div>
 </div>
 
 <div id="task-list-container">
-  <mat-selection-list id="tasks-list" #tasks>
-    <mat-list-option *ngFor="let task of taskList">
+  <mat-selection-list id="tasks-list" #taskSelectionList>
+    <mat-list-option *ngFor="let task of taskList" (click)="toggleSelection(task)">
       {{task.description}}
     </mat-list-option>
   </mat-selection-list>

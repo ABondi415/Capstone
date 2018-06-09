@@ -28,6 +28,18 @@ router.post('/task', async (request, response, next) => {
   next(result);
 });
 
+router.delete('/task/:id', async (request, response, next) => {
+  const loggingId = logger.generateId();
+  const timestamp = moment().format(logger.timestampFormat);
+  logger.info('Deleting task', loggingId, timestamp);
+
+  const id = request.params.id;
+
+  const result = await taskService.deleteTask(id);
+
+  next(result);
+});
+
 router.get('/task', async (request, response, next) => {
   const loggingId = logger.generateId();
   const timestamp = moment().format(logger.timestampFormat);
