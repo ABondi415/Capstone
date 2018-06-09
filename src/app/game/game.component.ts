@@ -1,5 +1,6 @@
 import { Component, ViewChild, ElementRef, OnInit, AfterViewInit } from '@angular/core';
-
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-game',
@@ -13,16 +14,17 @@ export class GameComponent implements OnInit {
   
     /** Canvas 2d context */
     private context: CanvasRenderingContext2D;
-
-  constructor() { }
+    
+    constructor(
+      private route: ActivatedRoute,
+      private location: Location
+    ) { }
 
   ngOnInit() {
     this.context = (this.canvasEl.nativeElement as HTMLCanvasElement).getContext('2d');
     this.draw();
-  }
-
-  ngAfterViewInit() {
-
+  goBack(): void {
+    this.location.back();
   }
 
     /**
