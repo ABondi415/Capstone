@@ -1,0 +1,11 @@
+<button
+  *ngIf="!auth.isAuthenticated()"
+  (click)="auth.login()">
+  Sign Up or Login
+</button>
+
+<button
+  *ngIf="auth.isAuthenticated()"
+  (click)="auth.logout()">
+  Logout
+</button>
