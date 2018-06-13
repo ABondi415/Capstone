@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  auth0: {
+    domain: 'psu-capstone.auth0.com',
+    clientId: 'yb6OBVT6GCZfh7xLaqt9psma0zRCVRYh',
+    callbackURL: 'http://localhost:8080/login'
+  }
 };
 
 /*

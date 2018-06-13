@@ -4,6 +4,8 @@ import { Observable, forkJoin } from 'rxjs';
 
 import { Task } from '../model/task';
 
+import { AuthService } from '../auth.service';
+
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
@@ -14,7 +16,8 @@ export class TaskListComponent implements OnInit {
   taskList: Array<Task> = [];
   newTaskDescription: string = "";
 
-  constructor(private httpService: HttpService) { }
+  constructor(
+    private httpService: HttpService) { }
 
   ngOnInit() {
     this.httpService.getTasks().subscribe(tasks =>  this.taskList = tasks);
