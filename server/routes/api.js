@@ -50,4 +50,29 @@ router.get('/task', async (request, response, next) => {
   next(result);
 });
 
+
+router.get('/task/:id', async (request, response, next) => {
+  const loggingId = logger.generateId();
+  const timestamp = moment().format(logger.timestampFormat);
+  logger.info('Retrieving ONE task', loggingId, timestamp);
+
+  const id = request.params.id;
+
+  const result = await taskService.getOneTask(id);
+
+  next(result);
+});
+
+router.put('/task/:id', async (request, response, next) => {
+  const loggingId = logger.generateId();
+  const timestamp = moment().format(logger.timestampFormat);
+  logger.info('Updating a task', loggingId, timestamp);
+
+  const task = request.body;
+
+  const result = await taskService.updateTask(task);
+
+  next(result);
+});
+
 module.exports = router;

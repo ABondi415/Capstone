@@ -28,4 +28,22 @@ service.getTasks = async () => {
   return result.Error ? result : result[0];
 };
 
+service.getOneTask = async (id) => {
+  const key = dataService.getDataStoreKey('Task', id);
+  const result = await dataService.read(key);
+
+  return result.Error ? result : result;
+};
+
+service.updateTask = async (task) => {
+  const entity = {
+    key: dataService.getDataStoreKey('Task', task.id),
+    data: task
+  };
+  const result = await dataService.update(entity);
+
+  return result.Error ? result : result;
+};
+
+
 module.exports = service;
