@@ -42,7 +42,7 @@ service.updateTask = async (task) => {
   };
   const result = await dataService.update(entity);
 
-  return result.Error ? result : result;
+  return result.Error ? result : task;
 };
 
 

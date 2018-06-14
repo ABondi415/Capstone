@@ -9,18 +9,21 @@ import { FormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 
 // Custom Modules
 import { AppComponent } from './app.component';
 import { TaskListComponent } from './task-list/task-list.component';
 import { GameComponent } from './game/game.component';
 import { AppRoutingModule } from './/app-routing.module';
+import { TaskDetailsComponent } from './task-details/task-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TaskListComponent,
-    GameComponent
+    GameComponent,
+    TaskDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -30,8 +33,10 @@ import { AppRoutingModule } from './/app-routing.module';
     MatListModule,
     MatInputModule,
     MatButtonModule,
+    MatDialogModule,
     AppRoutingModule
   ],
+  entryComponents: [TaskDetailsComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

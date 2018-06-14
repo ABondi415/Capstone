@@ -1,0 +1,9 @@
+<div class="task-details-form">
+  <mat-form-field>
+    <input matInput placeholder="Task description" [(ngModel)]="task.description" >
+  </mat-form-field>
+</div>
+<div id="btn-container">
+  <button id="update-btn" (click)="onUpdateClick()" mat-raised-button color="primary">Update</button>
+  <button id="cancel-btn" (click)="onCancelClick()" mat-raised-button color="secondary">Cancel</button>
+</div>

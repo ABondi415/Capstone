@@ -63,7 +63,7 @@ router.get('/task/:id', async (request, response, next) => {
   next(result);
 });
 
-router.put('/task/:id', async (request, response, next) => {
+router.put('/task', async (request, response, next) => {
   const loggingId = logger.generateId();
   const timestamp = moment().format(logger.timestampFormat);
   logger.info('Updating a task', loggingId, timestamp);
