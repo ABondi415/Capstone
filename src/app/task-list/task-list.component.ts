@@ -4,26 +4,34 @@ import { Observable, forkJoin } from 'rxjs';
 
 import { Task } from '../model/task';
 
+import { AuthService } from '../auth.service';
+
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.css'],
-  providers: [HttpService]
+  providers: [HttpService, AuthService]
 })
 export class TaskListComponent implements OnInit {
   taskList: Array<Task> = [];
   newTaskDescription: string = "";
 
-  constructor(private httpService: HttpService) { }
+  constructor(
+    private httpService: HttpService,
+    private authService: AuthService) { }
 
   ngOnInit() {
-    this.httpService.getTasks().subscribe(tasks =>  this.taskList = tasks);
+    // this.httpService.getTasks().subscribe(tasks =>  this.taskList = tasks);
+    if(this.authService.isAuthenticated){
+      this.httpService.getUserTasks(localStorage.getItem('userId')).subscribe(tasks =>  this.taskList = tasks);
+    }
+    
   }
 
   addTask(): void {
     if (this.newTaskDescription.length === 0) return;
 
-    let newTask = new Task(null, null, this.newTaskDescription, false);
+    let newTask = new Task(null, null, this.newTaskDescription, false, localStorage.getItem('userId'));
     this.httpService.addTask(newTask).subscribe(task => {
       this.taskList.push(task);
       this.newTaskDescription = "";

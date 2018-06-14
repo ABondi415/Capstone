@@ -3,5 +3,7 @@ export class Task {
     public id: string,
     public dueDate: Date,
     public description: string,
-    public selected: boolean) { }
+    public selected: boolean,
+    public userId: string
+  ) { }
 }

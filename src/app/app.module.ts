@@ -14,13 +14,18 @@ import { MatButtonModule } from '@angular/material/button';
 import { AppComponent } from './app.component';
 import { TaskListComponent } from './task-list/task-list.component';
 import { GameComponent } from './game/game.component';
-import { AppRoutingModule } from './/app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
+import { LoginComponent } from './login/login.component';
+
+// Services
+import { AuthService } from './auth.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     TaskListComponent,
-    GameComponent
+    GameComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +37,7 @@ import { AppRoutingModule } from './/app-routing.module';
     MatButtonModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

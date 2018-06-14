@@ -50,4 +50,12 @@ router.get('/task', async (request, response, next) => {
   next(result);
 });
 
+router.get('/my-task', async (request, response, next) => {
+  const loggingId = logger.generateId();
+  const timestamp = moment().format(logger.timestampFormat);
+  logger.info('Retrieving all of user\'s tasks', loggingId, timestamp);
+  const result = await taskService.getUserTasks(request.query.userId);
+  next(result);
+});
+
 module.exports = router;

@@ -6,11 +6,13 @@ import { RouterModule, Routes } from '@angular/router';
 //import each component for use in the routing paths
 import { TaskListComponent } from './task-list/task-list.component';
 import { GameComponent } from './game/game.component';
+import { LoginComponent } from './login/login.component';
 
 
 const routes: Routes = [
   { path: 'task-list', component: TaskListComponent },
-  { path: 'game', component: GameComponent }
+  { path: 'game', component: GameComponent },
+  { path: 'login', component: LoginComponent }
 ];
 
 @NgModule({

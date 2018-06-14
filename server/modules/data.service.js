@@ -71,4 +71,17 @@ service.readAll = async () => {
   }
 };
 
+service.readUserTasks = async (userId) => {
+  try {
+    const query = ds.createQuery('Task')
+      .filter('userId', '=', userId);
+
+    return ds.runQuery(query);
+  }
+  catch (err) {
+    logger.error(`gcloud datastore readUserTasks error: ${err}`);
+    return { Error: err };
+  }
+};
+
 module.exports = service;
