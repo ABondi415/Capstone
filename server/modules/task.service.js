@@ -28,4 +28,9 @@ service.getTasks = async () => {
   return result.Error ? result : result[0];
 };
 
+service.getUserTasks = async (userId) => {
+  const result = await dataService.readUserTasks(userId);
+  return result.Error ? result : result[0];
+};
+
 module.exports = service;

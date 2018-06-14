@@ -9,7 +9,7 @@ export class AuthService {
   private expiresAt: number;
   private accessToken: any;
   private userProfile: any;
-  private authenticated: boolean;
+  private authenticated: boolean = false;
 
   auth0Options = {
     auth: {
@@ -41,7 +41,6 @@ export class AuthService {
         else if (profile){
          this._setSession(authResult, profile);
          this.router.navigate(['/task-list'])
-         console.log('User ID: ', localStorage.getItem('userId'))
         }
       });
       });
@@ -95,70 +94,6 @@ export class AuthService {
     // expiration and user is signed in locally
     return Date.now() < this.expiresAt && this.authenticated;
   }
-  // constructor(private router: Router) {
-  //   this.auth0.checkSession({}, (err, authResult) => {
-  //     console.log('constructor')
-  //     console.log(authResult)
-  //     if (authResult && authResult.accessToken) {
-  //       this.getUserInfo(authResult);
-  //     }
-  //   });
-  //   //   this.lock.on('authenticated', (authResult: any) => {
-  // //     this.lock.getUserInfo(authResult.accessToken, (error, profile) => {
-  // //       if (error) {
-  // //         throw new Error(error);
-  // //       }
-
-  // //       console.log(authResult);
-  // //       console.log('-----------------------------------')
-  // //       localStorage.setItem('token', authResult.idToken);
-  // //       localStorage.setItem('profile', JSON.stringify(profile));
-  // //       console.log(localStorage.profile);
-  // //       console.log(localStorage.token);
-  // //       this.isLoggedIn = true;
-  // //       console.log('Logged in: ', this.isLoggedIn);
-  // //       this.router.navigate(['/task-list']);
-  // //   });
-  // // });
-
-  // //   this.lock.on('authorization_error', error => {
-  // //     console.log('something went wrong', error);
-  // //   });
-  // }
-
-  // getUserInfo(authResult) {
-  //   // Use access token to retrieve user's profile and set session
-  //   this.auth0.client.userInfo(authResult.accessToken, (err, profile) => {
-  //     if (profile) {
-  //       this._setSession(authResult, profile);
-  //     }
-  //   });
-  // }
-
-  // private _setSession(authResult, profile) {
-  //   // Save authentication data and update login status subject
-  //   this.expiresAt = authResult.expiresIn * 1000 + Date.now();
-  //   this.accessToken = authResult.accessToken;
-  //   this.userProfile = profile;
-  //   this.authenticated = true;
-
-  //   localStorage.setItem('profile', JSON.stringify(profile));
-  //   console.log(localStorage.profile);
-  //   this.router.navigate(['/task-list']);
-  // }
-
-  // login() {
-  //   // this.lock.show();
-  //   this.auth0.authorize();
-  // }
-
-  // logout() {
-  //   localStorage.removeItem('profile');
-  //   localStorage.removeItem('token');
-  //   this.isLoggedIn = false;
-  //   console.log('Logged in: ', this.isLoggedIn);
-  //   this.router.navigate(['/login']);
-  // }
 
   isAuthenticated() {
     return this.authenticated;
