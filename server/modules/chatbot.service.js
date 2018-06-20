@@ -30,5 +30,4 @@ service.sendMessage = async (message, sessionId) => {
   return responses[0].queryResult;
 };
 
-
 module.exports = service;
