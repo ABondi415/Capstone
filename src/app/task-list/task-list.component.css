@@ -14,13 +14,19 @@
 }
 
 #add-button-container {
-  width: 15%;
+  width: 10%;
+  text-align: right;
+  padding-top: 10px;
+}
+
+#edit-button-container {
+  width: 10%;
   text-align: right;
   padding-top: 10px;
 }
 
 #delete-button-container {
-  width: 15%;
+  width: 10%;
   text-align: right;
   padding-top: 10px;
 }
