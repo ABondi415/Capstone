@@ -41,6 +41,14 @@ export class HttpService {
       );
   };
 
+  updateTask(task: Task): Observable<Task> {
+    return this.http.put<Task>(this.taskUrl, task, httpOptions)
+      .pipe(
+        catchError(this.handleError<Task>('updateTask'))
+      );
+  };
+
+
   deleteTask(task: Task): Observable<string> {
     const url = `${this.taskUrl}/${task.id}`;
 
