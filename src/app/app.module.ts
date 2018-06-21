@@ -27,7 +27,7 @@ import { AuthService } from './auth.service';
     AppComponent,
     TaskListComponent,
     GameComponent,
-    LoginComponent
+    LoginComponent,
     TaskDetailsComponent
   ],
   imports: [

@@ -20,7 +20,8 @@ export class TaskDetailsComponent implements OnInit {
     this.task = new Task(this.data.task.id,
       this.data.task.dueDate,
       this.data.task.description,
-      this.data.task.selected);
+      this.data.task.selected,
+      this.data.task.userId);
   }
 
   onUpdateClick(): void {
@@ -29,6 +30,7 @@ export class TaskDetailsComponent implements OnInit {
       this.data.task.dueDate = task.dueDate;
       this.data.task.description = task.description;
       this.data.task.selected = task.selected;
+      this.data.task.userId = task.userId;
 
       this.dialogRef.close();
     });
