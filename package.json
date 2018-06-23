@@ -74,5 +74,12 @@
     },
     "requiresKeyFile": true,
     "requiresProjectId": true
+  },
+  "jest": {
+    "preset": "jest-preset-angular",
+    "roots": [
+      "<rootDir>"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/src/setup-jest.ts"
   }
 }
