@@ -1,8 +1,8 @@
 const dialogflow = require('dialogflow');
 const uuid = require('uuid/v1');
 
-const appEnvService = require('../modules/app-env.service');
-const taskService = require('../modules/task.service');
+const appEnvService = require('./app-env.service');
+const taskService = require('./task.service');
 
 const sessionClient = new dialogflow.SessionsClient();
 const languageCode = 'en-US';
@@ -15,16 +15,22 @@ service.generateSessionId = () => {
   return uuid();
 };
 
-service.handleIncomingMessage = async (message) => {
-  const action = message.queryResult.intent.displayName;
-
-  let actionHandler = null;
-  let actionResponseMessage = null;
-
-  switch (action) {
+service.getChatbotActionHandler = (actionText) => {
+  switch (actionText) {
     case 'ADD_TASK':
-      actionHandler = service.addTask;
+      return service.addTask;
   }
+
+  return null;
+};
+
+service.handleIncomingMessage = async (message) => {
+  const actionText = message.queryResult.intent.displayName;
+  const actionHandler = service.getChatbotActionHandler(actionText);
+
+  if (!actionHandler) return null;
+
+  let actionResponseMessage = null;
 
   try {
     actionResponseMessage = await actionHandler(message);

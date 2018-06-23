@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 
-const logger = require('../modules/logger.service');
+const logger = require('./logger.service');
 
 const service = {};
 
