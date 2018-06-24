@@ -2,6 +2,7 @@
 
 describe('Data Service', () => {
   const sinon = require('sinon');
+  const uuid = require('uuid/v1');
 
   let sandbox;
   let dataService;
@@ -23,10 +24,12 @@ describe('Data Service', () => {
 
   it('should generate key', () => {
     const kind = 'Task';
-    const result = dataService.generateKey(kind);
+    const id = uuid();
+    const result = dataService.getDataStoreKey(kind, id);
 
     expect(result).toBeDefined();
     expect(result.kind).toEqual(kind);
+    expect(result.name).toEqual(id);
   });
 
   // This violates the single purpose rule for unit tests, but I added it to provide 
@@ -38,7 +41,7 @@ describe('Data Service', () => {
     let result = null;
 
     // generateKey array arguments are [kind, name]. Name is optional.
-    const testKey = dataService.generateKey(['Task', 'MyTestEntity']);
+    const testKey = dataService.getDataStoreKey('Task', uuid());
     const entity = {
       key: testKey,
       data: {

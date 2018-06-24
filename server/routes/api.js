@@ -8,6 +8,7 @@ const router = express.Router();
 const logger = require('../modules/logger.service');
 const taskService = require('../modules/task.service');
 const userService = require('../modules/user.service');
+const chatbotService = require('../modules/chatbot.service');
 
 router.get('/healthCheck', (request, response, next) => {
   const loggingId = logger.generateId();
@@ -15,6 +16,17 @@ router.get('/healthCheck', (request, response, next) => {
   logger.info('health check', loggingId, timestamp);
 
   next({ response: 'success' });
+});
+
+router.post('/chatbot', async (request, response, next) => {
+  const loggingId = logger.generateId();
+  const timestamp = moment().format(logger.timestampFormat);
+  logger.info('Incoming chatbot webhook message', loggingId, timestamp);
+
+  const incomingMessage = request.body;
+  const chatbotResponse = await chatbotService.handleIncomingMessage(incomingMessage);
+
+  next(chatbotResponse);
 });
 
 router.post('/task', async (request, response, next) => {
@@ -67,7 +79,9 @@ router.get('/my-tasks', async (request, response, next) => {
   const loggingId = logger.generateId();
   const timestamp = moment().format(logger.timestampFormat);
   logger.info('Retrieving all of user\'s tasks', loggingId, timestamp);
+
   const result = await taskService.getUserTasks(request.query.userId);
+
   next(result);
 });
 

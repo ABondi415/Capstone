@@ -1,4 +1,4 @@
-const dataService = require('../modules/data.service');
+const dataService = require('./data.service');
 const uuid = require('uuid/v1');
 
 const service = {};

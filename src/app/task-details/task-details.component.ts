@@ -20,7 +20,7 @@ export class TaskDetailsComponent implements OnInit {
     this.task = new Task(this.data.task.id,
       this.data.task.dueDate,
       this.data.task.description,
-      this.data.task.selected,
+      false,
       this.data.task.userId);
   }
 

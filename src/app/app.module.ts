@@ -21,6 +21,7 @@ import { TaskDetailsComponent } from './task-details/task-details.component';
 
 // Services
 import { AuthService } from './auth.service';
+import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { AuthService } from './auth.service';
     TaskListComponent,
     GameComponent,
     LoginComponent,
+    ChatWidgetComponent,
     TaskDetailsComponent
   ],
   imports: [

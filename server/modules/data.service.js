@@ -2,8 +2,8 @@
 
 const Datastore = require('@google-cloud/datastore');
 
-const logger = require('../modules/logger.service');
-const appEnvService = require('../modules/app-env.service');
+const logger = require('./logger.service');
+const appEnvService = require('./app-env.service');
 
 const ds = new Datastore({
   projectId: appEnvService.getVariable('PROJECT_ID'),
