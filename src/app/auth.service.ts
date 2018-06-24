@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
-
+import { HttpService } from '../app/http.service';
 import Auth0Lock from 'auth0-lock';
+import { User } from './model/user';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,7 @@ export class AuthService {
       responseType: 'token id_token',
       audience: `https://${environment.auth0.domain}/userinfo`,
       params: {
-        scope: 'openid profile'
+        scope: 'openid email profile'
       }
     },
     autoclose: true,
@@ -31,7 +32,10 @@ export class AuthService {
   );
 
  
-  constructor(private router: Router) {
+  constructor(
+    private httpService: HttpService,
+    private router: Router
+  ) {
     // this.getAccessToken();
     this.lock.on('authenticated', (authResult: any) => {
       this.lock.getUserInfo(authResult.accessToken, (error, profile) => {
@@ -39,8 +43,7 @@ export class AuthService {
           throw new Error(error);
         }
         else if (profile){
-         this._setSession(authResult, profile);
-         this.router.navigate(['/task-list'])
+         this._setSession(authResult, profile)
         }
       });
       });
@@ -79,12 +82,19 @@ export class AuthService {
     localStorage.setItem('token', authResult.accessToken);
     localStorage.setItem('profile', JSON.stringify(profile));
     localStorage.setItem('userId', profile.sub);
+
+    let user = new User(profile.sub, profile.given_name, profile.family_name, profile.email, 0);
+    this.httpService.getOrCreateUser(user).subscribe(user_profile => {
+      localStorage.setItem('currentUser', JSON.stringify(user_profile));
+      this.router.navigate(['/task-list'])
+    });
   }
 
   logout() {
     localStorage.removeItem('profile');
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
+    localStorage.removeItem('currentUser')
     this.authenticated = false;
     this.router.navigate(['/']);
   }

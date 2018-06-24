@@ -25,11 +25,10 @@ export class TaskListComponent implements OnInit {
     public dialog: MatDialog) { }
 
   ngOnInit() {
-    // this.httpService.getTasks().subscribe(tasks =>  this.taskList = tasks);
     if(this.authService.isAuthenticated){
-      this.httpService.getUserTasks(localStorage.getItem('userId')).subscribe(tasks =>  this.taskList = tasks);
+      let currentUserId = JSON.parse(localStorage.getItem('currentUser')).userId;
+      this.httpService.getUserTasks(currentUserId).subscribe(tasks =>  this.taskList = tasks);
     }
-    
   }
 
   addTask(): void {
