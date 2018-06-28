@@ -5,8 +5,19 @@
   </h1>
 </div>
 
-<app-login></app-login>
+<app-login></app-login><br> 
 
-<router-outlet></router-outlet>
+<mat-sidenav-container>
+  <mat-sidenav mode="side" opened>
+    
+    <a routerLink = "task-list">Task List</a><br>
+    <a routerLink = "chat">Chat</a><br>
+    <a routerLink = "game">Game</a><br>
+    
+  </mat-sidenav>
+  <mat-sidenav-content>
 
-<app-chat-widget></app-chat-widget>
+        <router-outlet></router-outlet>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

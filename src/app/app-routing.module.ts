@@ -7,12 +7,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { TaskListComponent } from './task-list/task-list.component';
 import { GameComponent } from './game/game.component';
 import { LoginComponent } from './login/login.component';
+import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
 
 
 const routes: Routes = [
   { path: 'task-list', component: TaskListComponent },
   { path: 'game', component: GameComponent },
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
+  { path: 'chat', component: ChatWidgetComponent }
 ];
 
 @NgModule({
