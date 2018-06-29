@@ -1,19 +1,22 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-</div>
+<body class = "mat-app-background">
 
-<app-login></app-login><br> 
+<mat-toolbar color= "primary">
+    <h1>
+      Welcome to {{ title }}!
+    </h1>
+    <!-- This fills the remaining space of the current row -->
+    <span class="example-fill-remaining-space"></span>
+    <app-login></app-login>
+</mat-toolbar>
+
 
 <mat-sidenav-container>
   <mat-sidenav mode="side" opened>
-    
-    <a routerLink = "task-list">Task List</a><br>
-    <a routerLink = "chat">Chat</a><br>
-    <a routerLink = "game">Game</a><br>
-    
+    <mat-nav-list color = "primary">
+      <a mat-list-item routerLink = "task-list">Task List</a>
+      <a mat-list-item routerLink = "chat">Chat</a>
+      <a mat-list-item routerLink = "game">Game</a>
+    </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
 
@@ -21,3 +24,5 @@
 
   </mat-sidenav-content>
 </mat-sidenav-container>
+
+</body>
