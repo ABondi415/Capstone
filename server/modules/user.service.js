@@ -24,8 +24,6 @@ service.getOrAddUser = async (user) => {
     } else {
         return user_profile[0];
     }
-
-    
-  };
+};
 
 module.exports = service;
