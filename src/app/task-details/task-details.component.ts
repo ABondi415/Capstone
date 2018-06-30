@@ -20,6 +20,10 @@ export class TaskDetailsComponent implements OnInit {
     this.task = new Task(this.data.task.id,
       this.data.task.dueDate,
       this.data.task.description,
+      this.data.task.taskPriority,
+      this.data.task.taskDetail,
+      this.data.task.taskCompleted,
+      this.data.task.voiceReminder,
       false,
       this.data.task.userId);
   }
@@ -29,6 +33,10 @@ export class TaskDetailsComponent implements OnInit {
       this.data.task.id = task.id;
       this.data.task.dueDate = task.dueDate;
       this.data.task.description = task.description;
+      this.data.task.taskPriority = task.taskPriority;
+      this.data.task.taskDetail = task.taskDetail;
+      this.data.task.taskCompleted = task.taskCompleted;
+      this.data.task.voiceReminder = task.voiceReminder;
       this.data.task.selected = task.selected;
       this.data.task.userId = task.userId;
 
