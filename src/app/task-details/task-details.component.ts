@@ -37,7 +37,7 @@ export class TaskDetailsComponent implements OnInit {
       this.data.task.taskDetail = task.taskDetail;
       this.data.task.taskCompleted = task.taskCompleted;
       this.data.task.voiceReminder = task.voiceReminder;
-      this.data.task.selected = task.selected;
+      //this.data.task.selected = task.selected;
       this.data.task.userId = task.userId;
 
       this.dialogRef.close();
