@@ -7,6 +7,7 @@ const router = express.Router();
 
 const logger = require('../modules/logger.service');
 const taskService = require('../modules/task.service');
+const userService = require('../modules/user.service');
 const chatbotService = require('../modules/chatbot.service');
 
 router.get('/healthCheck', (request, response, next) => {
@@ -74,7 +75,7 @@ router.get('/task/:id', async (request, response, next) => {
   next(result);
 });
 
-router.get('/my-task', async (request, response, next) => {
+router.get('/my-tasks', async (request, response, next) => {
   const loggingId = logger.generateId();
   const timestamp = moment().format(logger.timestampFormat);
   logger.info('Retrieving all of user\'s tasks', loggingId, timestamp);
@@ -92,6 +93,18 @@ router.put('/task', async (request, response, next) => {
   const task = request.body;
 
   const result = await taskService.updateTask(task);
+
+  next(result);
+});
+
+router.post('/user', async (request, response, next) => {
+  const loggingId = logger.generateId();
+  const timestamp = moment().format(logger.timestampFormat);
+  
+  logger.info('Getting or creating user', loggingId, timestamp);
+
+  const user = request.body;
+  const result = await userService.getOrAddUser(user);
 
   next(result);
 });

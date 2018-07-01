@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { Task } from './model/task';
+import { User } from './model/user';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,7 +15,8 @@ const httpOptions = {
 })
 export class HttpService {
   private taskUrl = 'api/task';
-  private myTaskUrl = 'api/my-task';
+  private userUrl = 'api/user';
+  private myTaskUrl = 'api/my-tasks';
 
   constructor(private http: HttpClient) { }
 
@@ -34,6 +36,20 @@ export class HttpService {
       );
   };
 
+  getOrCreateUser(user: User): Observable<User> {
+    return this.http.post<User>(this.userUrl, user, httpOptions)
+      .pipe(
+        catchError(this.handleError<User>('getOrCreateUser'))
+      );
+  };
+
+  addUser(user: User): Observable<User> {
+    return this.http.post<User>(this.userUrl, user, httpOptions)
+      .pipe(
+        catchError(this.handleError<User>('addUser'))
+      );
+  };
+
   addTask(task: Task): Observable<Task> {
     return this.http.post<Task>(this.taskUrl, task, httpOptions)
       .pipe(
@@ -47,7 +63,6 @@ export class HttpService {
         catchError(this.handleError<Task>('updateTask'))
       );
   };
-
 
   deleteTask(task: Task): Observable<string> {
     const url = `${this.taskUrl}/${task.id}`;
