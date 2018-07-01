@@ -13,6 +13,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 
 // Custom Modules
 import { AppComponent } from './app.component';
@@ -43,6 +45,7 @@ import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
     MatListModule,
     MatInputModule,
     MatButtonModule,
+    MatCheckboxModule,
     MatDialogModule,
     AppRoutingModule,
     MatSidenavModule,
