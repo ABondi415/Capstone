@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
 
 // Custom Modules
 import { AppComponent } from './app.component';
@@ -45,7 +46,8 @@ import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
     MatDialogModule,
     AppRoutingModule,
     MatSidenavModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatIconModule
   ],
   entryComponents: [TaskDetailsComponent],
   providers: [AuthService],

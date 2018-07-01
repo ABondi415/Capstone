@@ -2,9 +2,108 @@
 
 @include mat-core();
 
-$zombie-app-primary: mat-palette($mat-green, 700, 500, 900);
-$zombie-app-accent:  mat-palette($mat-brown, 700, 500, 900);
-$zombie-app-warn:    mat-palette($mat-red,   700, 500, 900);
+$md-zombie-green: (
+    50 : #e9eae8,
+    100 : #c8cbc5,
+    200 : #a3a89f,
+    300 : #7e8579,
+    400 : #636b5c,
+    500 : #47513f,
+    600 : #404a39,
+    700 : #374031,
+    800 : #2f3729,
+    900 : #20271b,
+    A100 : #a8ff6e,
+    A200 : #8aff3b,
+    A400 : #6bff08,
+    A700 : #5fee00,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$md-zombie-grey: (
+    50 : #f3f4f3,
+    100 : #e1e5e0,
+    200 : #ced3cb,
+    300 : #bac1b6,
+    400 : #abb4a7,
+    500 : #9ca797,
+    600 : #949f8f,
+    700 : #8a9684,
+    800 : #808c7a,
+    900 : #6e7c69,
+    A100 : #f8fef5,
+    A200 : #d5fcc5,
+    A400 : #b0ff8f,
+    A700 : #9fff75,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$md-zombie-red: (
+    50 : #ede8e8,
+    100 : #d3c6c6,
+    200 : #b6a0a0,
+    300 : #997a7a,
+    400 : #835e5e,
+    500 : #6d4141,
+    600 : #653b3b,
+    700 : #5a3232,
+    800 : #502a2a,
+    900 : #3e1c1c,
+    A100 : #ff8181,
+    A200 : #ff4e4e,
+    A400 : #ff1b1b,
+    A700 : #ff0202,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+$zombie-app-primary: mat-palette($md-zombie-green);
+$zombie-app-accent:  mat-palette($md-zombie-grey);
+$zombie-app-warn:    mat-palette($md-zombie-red);
 
 $zombie-app-theme: mat-dark-theme($zombie-app-primary, $zombie-app-accent, $zombie-app-warn);
 

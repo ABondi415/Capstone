@@ -1,5 +1,30 @@
+.app-container {
+  display: grid;
+  grid-template-areas:
+    'header'
+    'content';
+}
+
+.app-header {
+  grid-area: header;
+  display: grid;
+  grid-template-columns: 40px auto 140px;
+}
+
+.app-header > h1 {
+  margin-left: 10px;
+}
+
+.app-content {
+  grid-area: content;
+}
+
+.app-content > mat-sidenav {
+  width: 10%;
+}
+
 .example-fill-remaining-space {
-    /* This fills the remaining space, by using flexbox. 
-       Every toolbar row uses a flexbox row layout. */
-    flex: 1 1 auto;
-  }
+  /* This fills the remaining space, by using flexbox. 
+      Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}

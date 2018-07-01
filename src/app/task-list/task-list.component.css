@@ -1,32 +1,19 @@
-#tasks-list {
+.container {
+  display: grid;
   width: 50%;
-  margin: 0 auto;
+  margin: 20px auto;
 }
 
 #add-task-form {
-  width: 50%;
-  margin: 0 auto;
-  display: flex;
+  display: grid;
+  align-content: bottom;
+  grid-template-columns: auto 95px 95px 90px;
 }
 
-#add-task-input-container{
-  width: 70%;
+#add-task-form > mat-form-field {
+  margin-right: 10px;
 }
 
-#add-button-container {
-  width: 10%;
-  text-align: right;
-  padding-top: 10px;
-}
-
-#edit-button-container {
-  width: 10%;
-  text-align: right;
-  padding-top: 10px;
-}
-
-#delete-button-container {
-  width: 10%;
-  text-align: right;
-  padding-top: 10px;
+.button-container {
+  margin-top: 10px;
 }

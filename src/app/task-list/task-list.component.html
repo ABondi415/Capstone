@@ -1,22 +1,24 @@
-<div id="add-task-form">
-  <mat-form-field id="add-task-input-container">
-    <input [(ngModel)]="newTaskDescription" matInput placeholder="Enter new task">
-  </mat-form-field>
-  <div id="add-button-container">
-    <button (click)="addTask()" mat-raised-button color="primary">Add</button>
+<div class="container">
+  <div id="add-task-form">
+    <mat-form-field>
+      <input [(ngModel)]="newTaskDescription" matInput placeholder="Enter new task">
+    </mat-form-field>
+    <div class="button-container">
+      <button (click)="addTask()" mat-raised-button color="primary">Add</button>
+    </div>
+    <div class="button-container">
+      <button (click)="editTask()" [disabled]="taskSelectionList.selectedOptions.selected.length != 1" mat-raised-button color="accent">Edit</button>
+    </div>
+    <div class="button-container">
+      <button (click)="deleteTasks()" [disabled]="taskSelectionList.selectedOptions.selected.length == 0" mat-raised-button color="warn">Delete</button>
+    </div>
   </div>
-  <div id="edit-button-container">
-    <button (click)="editTask()" [disabled]="taskSelectionList.selectedOptions.selected.length != 1" mat-raised-button color="primary">Edit</button>
+  
+  <div id="task-list-container">
+    <mat-selection-list id="tasks-list" #taskSelectionList>
+      <mat-list-option *ngFor="let task of taskList" (click)="toggleSelection(task)">
+        {{task.description}}
+      </mat-list-option>
+    </mat-selection-list>
   </div>
-  <div id="delete-button-container">
-    <button (click)="deleteTasks()" [disabled]="taskSelectionList.selectedOptions.selected.length == 0" mat-raised-button color="primary">Delete</button>
-  </div>
-</div>
-
-<div id="task-list-container">
-  <mat-selection-list id="tasks-list" #taskSelectionList>
-    <mat-list-option *ngFor="let task of taskList" (click)="toggleSelection(task)">
-      {{task.description}}
-    </mat-list-option>
-  </mat-selection-list>
 </div>
