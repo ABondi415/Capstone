@@ -17,13 +17,3 @@
 .button-container {
   margin-top: 10px;
 }
-
-#delete-button-container {
-  width: 10%;
-  text-align: right;
-  padding-top: 10px;
-}
-
-.rightPadding{
-  padding-right: 20px;
-}
