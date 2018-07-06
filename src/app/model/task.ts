@@ -7,6 +7,7 @@ export class Task {
     public taskDetail: string,
     public taskCompleted: boolean,
     public voiceReminder: boolean,
+    public sprite: string,
     public selected: boolean,
     public userId: string
   ) { }

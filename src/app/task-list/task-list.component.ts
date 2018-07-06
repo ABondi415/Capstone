@@ -39,7 +39,7 @@ export class TaskListComponent implements OnInit {
   addTask(): void {
     if (this.newTaskDescription.length === 0) return;
 
-    let newTask = new Task(null, null, this.newTaskDescription,false,this.newTaskDetail, false,false, false, localStorage.getItem('userId'));
+    let newTask = new Task(null, null, this.newTaskDescription,false,this.newTaskDetail, false,false, null, false, localStorage.getItem('userId'));
     this.httpService.addTask(newTask).subscribe(task => {
       this.taskList.push(task);
       this.newTaskDescription = "";
