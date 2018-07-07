@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-7">
+      <p>User Information</p>
+      <form [formGroup]="userForm">
+        <mat-form-field>
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="firstName">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastName">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Email Address</mat-label>
+          <input matInput formControlName="emailAddress">
+        </mat-form-field>
+      </form>
+    </div>
+    <div class="col-lg-5 ">
+      <h1>{{ user.score }} points</h1>
+    </div>
+  </div>
+  <p>Form value: {{ userForm.value | json }}</p>
+</div>
