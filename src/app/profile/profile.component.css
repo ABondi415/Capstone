@@ -1,8 +1,14 @@
 .container {
-    display: grid;
-    justify-content: center;
-    width: 50%;
-    margin: 20px auto;
-  }
+  display: grid;
+  justify-content: center;
+  width: 70%;
+  margin: 20px auto;
+}
 
-  
+.userCard {
+  width: 360px
+}
+
+.scoreCard {
+  width: 180px
+}
