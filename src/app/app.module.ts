@@ -15,6 +15,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+
 
 // Custom Modules
 import { AppComponent } from './app.component';
@@ -48,13 +51,15 @@ import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
     MatListModule,
     MatInputModule,
     MatButtonModule,
+    MatCheckboxModule,
     MatDialogModule,
     AppRoutingModule,
     MatSidenavModule,
     MatToolbarModule,
     MatIconModule,
     ReactiveFormsModule,
-    MatCardModule
+    MatCardModule,
+    MatSelectModule
   ],
   entryComponents: [TaskDetailsComponent],
   providers: [AuthService],

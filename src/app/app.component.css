@@ -35,3 +35,7 @@
   padding-bottom: 1 rem;
   background: #47513f;
 }
+
+app-login {
+  text-align: right;
+}

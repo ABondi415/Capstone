@@ -11,7 +11,7 @@ import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform
 describe('TaskDetailsComponent', () => {
   let component: TaskDetailsComponent;
   let fixture: ComponentFixture<TaskDetailsComponent>;
-  let testTask = new Task('1234', new Date(2017, 1, 1), 'test', true, null);
+  let testTask = new Task('1234', new Date(2017, 1, 1), 'test', true, 'test detail', true, true, false, null);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

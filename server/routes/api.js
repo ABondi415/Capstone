@@ -109,4 +109,17 @@ router.post('/user', async (request, response, next) => {
   next(result);
 });
 
+router.put('/user', async (request, response, next) => {
+  const loggingId = logger.generateId();
+  const timestamp = moment().format(logger.timestampFormat);
+  logger.info('Updating a user', loggingId, timestamp);
+
+  const user = request.body;
+
+  const result = await userService.updateUser(user);
+
+  next(result);
+});
+
+
 module.exports = router;
