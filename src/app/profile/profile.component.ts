@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators , FormsModule, NgForm } from '@angular/forms';  
-
+import { HttpService } from '../http.service';
+import { AuthService } from '../auth.service';
 import { User } from '../model/user'
 import { DISABLED } from '@angular/forms/src/model';
 
@@ -11,6 +12,7 @@ import { DISABLED } from '@angular/forms/src/model';
 })
 export class ProfileComponent implements OnInit {
   userForm: FormGroup;
+  userScore: number;
   user: User = new User(
     JSON.parse(localStorage.getItem('currentUser')).userId, 
     JSON.parse(localStorage.getItem('currentUser')).firstName, 
@@ -20,12 +22,19 @@ export class ProfileComponent implements OnInit {
   )
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private httpService: HttpService,
+    private authService: AuthService
   ) {
     this.createForm()
   }
 
   ngOnInit() {
+    // get the user and task data
+    if(this.authService.isAuthenticated){
+      let currentUserId = JSON.parse(localStorage.getItem('currentUser')).userId;
+      this.httpService.getOrCreateUser(this.user).subscribe(user => this.user = user);
+    }
   }
 
   createForm() {
