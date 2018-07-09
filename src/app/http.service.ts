@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 import { Task } from './model/task';
 import { User } from './model/user';
+import { Message } from './model/message';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -16,6 +17,7 @@ const httpOptions = {
 export class HttpService {
   private taskUrl = 'api/task';
   private userUrl = 'api/user';
+  private messageUrl = 'api/message';
   private myTaskUrl = 'api/my-tasks';
 
   constructor(private http: HttpClient) { }
@@ -35,6 +37,47 @@ export class HttpService {
         catchError(this.handleError<Task[]>('getUserTasks', []))
       );
   };
+
+  getUserMessages(userId: string): Observable<Message[]> {
+    let params = new HttpParams().set('userId', userId);
+
+    return this.http.get<Message[]>(this.messageUrl, { 'headers': httpOptions.headers, 'params': params })
+      .pipe(
+        map(messages => {
+          messages.forEach(m => m.createdDateTime = new Date(m.createdDateTime));
+          return messages.sort((a, b) => { return b.createdDateTime.valueOf() - a.createdDateTime.valueOf(); });
+        }),
+        catchError(this.handleError<Message[]>('getUserMessages', []))
+      );
+  }
+
+  sendUserMessage(message: Message, userId: string): Observable<Message> {
+    let body = {
+      message: message,
+      userId: userId
+    };
+
+    return this.http.post<Message>(this.messageUrl, body, httpOptions)
+      .pipe(
+        catchError(this.handleError<Message>('sendUserMessage'))
+      );
+  }
+
+  getMessages(): Observable<Message> {
+    return new Observable<Message>(observer => {
+      // this.socket = io();
+
+      // this.socket.on('incoming', (data: Message) => {
+      //   observer.next(data);
+      // });
+
+      // this.socket.on('outgoing', (data: Message) => {
+      //   observer.next(data);
+      // });
+
+      // return () => this.socket.disconnect();
+    });
+  }
 
   getOrCreateUser(user: User): Observable<User> {
     return this.http.post<User>(this.userUrl, user, httpOptions)

@@ -1,7 +1,18 @@
 <div class="container">
-    <iframe
+    <!-- <iframe
         width="350"
         height="430"
         src="https://console.dialogflow.com/api-client/demo/embedded/caa23afe-3763-43a2-8dc7-3472fa035e13">
-    </iframe>
+    </iframe> -->
+
+    <div class="chat-window">
+        <div class="scroll-bottom">
+            <div *ngFor="let m of messages" class="message">
+                <p [ngClass]="{'incoming': m.type === 'incoming', 'outgoing': m.type === 'outgoing'}">{{m.text}}</p>
+            </div>
+        </div>
+        <div>
+
+        </div>
+    </div>
 </div>

@@ -109,4 +109,27 @@ router.post('/user', async (request, response, next) => {
   next(result);
 });
 
+router.get('/message', async (request, response, next) => {
+  const loggingId = logger.generateId();
+  const timestamp = moment().format(logger.timestampFormat);
+  logger.info('Retrieving all of user\'s messages', loggingId, timestamp);
+
+  const result = await messageService.getUserMessages(request.query.userId);
+
+  next(result);
+});
+
+router.post('/message', async (request, response, next) => {
+  const loggingId = logger.generateId();
+  const timestamp = moment().format(logger.timestampFormat);
+  logger.info('Adding new message', loggingId, timestamp);
+
+  const message = request.body.message;
+  const userId = request.body.userId;
+
+  const result = await messageService.addMessage(message, userId);
+
+  next(result);
+});
+
 module.exports = router;
