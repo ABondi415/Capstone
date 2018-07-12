@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, AfterViewChecked, ViewChild, ElementRef } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { uuid } from 'uuid/v1';
 
 import { Message, MessageType } from '../model/message';
 import { HttpService } from '../http.service';
@@ -48,10 +47,10 @@ export class ChatWidgetComponent implements OnInit, OnDestroy, AfterViewChecked 
     this.messagesSubscription.unsubscribe();
   }
 
-  sendMessage() {
+  sendMessage(): void {
     if (this.messageSending) return;
 
-    let message = new Message(uuid(), this.newMessageBody, new Date(), MessageType.OUTGOING, this.currentUserId);
+    let message = new Message(null, this.newMessageBody, new Date(), MessageType.OUTGOING, this.currentUserId);
 
     this.messageSending = true;
     this.httpService.sendUserMessage(message, this.currentUserId)

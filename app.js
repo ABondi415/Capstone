@@ -3,6 +3,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const http = require('http');
+const socketio = require('socket.io');
 
 const api = require('./server/routes/api');
 
@@ -30,9 +32,14 @@ app.get('*', (request, response) => {
   response.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
+const server = http.createServer(app);
+
+const io = socketio(server);
+app.set('io', io);
+
 // Start the server
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
   console.log('Press Ctrl+C to quit.');
 });

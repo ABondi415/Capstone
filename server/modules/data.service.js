@@ -84,6 +84,19 @@ service.readUserTasks = async (userId) => {
   }
 };
 
+service.readUserMessages = async (userId) => {
+  try {
+    const query = ds.createQuery('Message')
+      .filter('userId', '=', userId);
+
+    return ds.runQuery(query);
+  }
+  catch (err) {
+    logger.error(`gcloud datastore readUserMessages error: ${err}`);
+    return { Error: err };
+  }
+};
+
 service.readUser = async (userId) => {
   try {
     const query = ds.createQuery('User')

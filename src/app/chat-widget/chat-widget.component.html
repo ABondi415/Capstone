@@ -8,11 +8,17 @@
     <div class="chat-window">
         <div class="scroll-bottom">
             <div *ngFor="let m of messages" class="message">
-                <p [ngClass]="{'incoming': m.type === 'incoming', 'outgoing': m.type === 'outgoing'}">{{m.text}}</p>
+                <p [ngClass]="{'incoming': m.type === 'INCOMING', 'outgoing': m.type === 'OUTGOING'}">{{m.body}}</p>
             </div>
         </div>
-        <div>
-
+        <div class="chatbot-message-form">
+            <mat-form-field>
+                <input [(ngModel)]="newMessageBody" matInput placeholder="Type message..." >
+            </mat-form-field>
+            <div class="button-container">
+                <button (click)="sendMessage()" mat-raised-button color="primary">Send</button>
+            </div>
         </div>
+
     </div>
 </div>

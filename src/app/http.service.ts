@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import * as io from 'socket.io-client';
 
 import { Task } from './model/task';
 import { User } from './model/user';
@@ -19,6 +20,7 @@ export class HttpService {
   private userUrl = 'api/user';
   private messageUrl = 'api/message';
   private myTaskUrl = 'api/my-tasks';
+  private socket;
 
   constructor(private http: HttpClient) { }
 
@@ -45,7 +47,7 @@ export class HttpService {
       .pipe(
         map(messages => {
           messages.forEach(m => m.createdDateTime = new Date(m.createdDateTime));
-          return messages.sort((a, b) => { return b.createdDateTime.valueOf() - a.createdDateTime.valueOf(); });
+          return messages.sort((a, b) => { return a.createdDateTime.valueOf() - b.createdDateTime.valueOf(); });
         }),
         catchError(this.handleError<Message[]>('getUserMessages', []))
       );
@@ -65,17 +67,17 @@ export class HttpService {
 
   getMessages(): Observable<Message> {
     return new Observable<Message>(observer => {
-      // this.socket = io();
+      this.socket = io();
 
-      // this.socket.on('incoming', (data: Message) => {
-      //   observer.next(data);
-      // });
+      this.socket.on('INCOMING', (data: Message) => {
+        observer.next(data);
+      });
 
-      // this.socket.on('outgoing', (data: Message) => {
-      //   observer.next(data);
-      // });
+      this.socket.on('OUTGOING', (data: Message) => {
+        observer.next(data);
+      });
 
-      // return () => this.socket.disconnect();
+      return () => this.socket.disconnect();
     });
   }
 

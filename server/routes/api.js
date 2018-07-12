@@ -7,6 +7,7 @@ const router = express.Router();
 
 const logger = require('../modules/logger.service');
 const taskService = require('../modules/task.service');
+const messageService = require('../modules/message.service');
 const userService = require('../modules/user.service');
 const chatbotService = require('../modules/chatbot.service');
 
@@ -21,10 +22,14 @@ router.get('/healthCheck', (request, response, next) => {
 router.post('/chatbot', async (request, response, next) => {
   const loggingId = logger.generateId();
   const timestamp = moment().format(logger.timestampFormat);
+  const io = request.app.get('io');
+
   logger.info('Incoming chatbot webhook message', loggingId, timestamp);
 
   const incomingMessage = request.body;
   const chatbotResponse = await chatbotService.handleIncomingMessage(incomingMessage);
+
+  io.emit('INCOMING', chatbotResponse.fulfillmentText);
 
   next(chatbotResponse);
 });
@@ -122,12 +127,14 @@ router.get('/message', async (request, response, next) => {
 router.post('/message', async (request, response, next) => {
   const loggingId = logger.generateId();
   const timestamp = moment().format(logger.timestampFormat);
+  const io = request.app.get('io');
   logger.info('Adding new message', loggingId, timestamp);
 
   const message = request.body.message;
   const userId = request.body.userId;
 
   const result = await messageService.addMessage(message, userId);
+  io.emit('OUTGOING', result);
 
   next(result);
 });
