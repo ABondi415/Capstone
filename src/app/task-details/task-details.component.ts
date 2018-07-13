@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpService } from '../http.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 import { AuthService } from '../auth.service';
 import { User } from '../model/user';
@@ -20,7 +21,8 @@ export class TaskDetailsComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<TaskDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private httpService: HttpService,
-    private authService: AuthService
+    private authService: AuthService,
+    public snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -50,6 +52,7 @@ export class TaskDetailsComponent implements OnInit {
     if (this.data.task.taskCompleted != this.task.taskCompleted) {
       if (this.task.taskCompleted){
         this.addPoints();
+        this.snackBar.open("Task completed! Nice work!", "", {duration: 2000});
       }
       else {
         this.removePoints();
@@ -84,6 +87,8 @@ updateTaskInfo(){
     //TBD:  generate a good-job message here...
     this.taskUser.score = this.taskUser.score + 10;
     this.updateUserScore();
+
+    
   }
 
   removePoints() {
