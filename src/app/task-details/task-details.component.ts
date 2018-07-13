@@ -22,7 +22,7 @@ export class TaskDetailsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private httpService: HttpService,
     private authService: AuthService,
-    public snackBar: MatSnackBar
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {

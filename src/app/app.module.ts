@@ -17,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 // Custom Modules
@@ -59,7 +60,8 @@ import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
     MatIconModule,
     ReactiveFormsModule,
     MatCardModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSnackBarModule
   ],
   entryComponents: [TaskDetailsComponent],
   providers: [AuthService],
