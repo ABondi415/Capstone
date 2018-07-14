@@ -1,7 +1,7 @@
 .container {
   display: grid;
   width: 50%;
-  height: calc(100vh - 120px);
+  height: calc(100vh - 184px);
   margin: 20px auto;
 }
 
@@ -25,7 +25,7 @@
 }
 
 .chat-conversation-container {
-  max-height: calc(100vh - 229px);
+  max-height: calc(100vh - 293px);
   overflow-y: scroll;
   overflow-x: hidden;
   border-bottom: 3px solid #929191;
