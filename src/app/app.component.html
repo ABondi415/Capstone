@@ -15,11 +15,15 @@
         <a mat-list-item routerLink = "task-list">Task List</a>
         <a mat-list-item routerLink = "chat">Chat</a>
         <a mat-list-item routerLink = "game">Game</a>
+        <a mat-list-item routerLink = "profile">Profile</a>
       </mat-nav-list>
     </mat-sidenav>
 
     <mat-sidenav-content>
       <router-outlet></router-outlet>
+      <mat-toolbar class="app-header footer" color= "primary">
+          For support, contact the dev team: email@address.com, email@address.com, email@address.com, email@address.com 
+      </mat-toolbar>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

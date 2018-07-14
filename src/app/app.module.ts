@@ -3,7 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 // Angular Material Modules
 import { MatListModule } from '@angular/material/list';
@@ -13,8 +14,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 // Custom Modules
@@ -24,10 +27,12 @@ import { GameComponent } from './game/game.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './login/login.component';
 import { TaskDetailsComponent } from './task-details/task-details.component';
+import { ProfileComponent } from './profile/profile.component';
 
 // Services
 import { AuthService } from './auth.service';
 import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
+
 
 @NgModule({
   declarations: [
@@ -36,7 +41,8 @@ import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
     GameComponent,
     LoginComponent,
     ChatWidgetComponent,
-    TaskDetailsComponent
+    TaskDetailsComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -51,8 +57,11 @@ import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
     AppRoutingModule,
     MatSidenavModule,
     MatToolbarModule,
-    MatIconModule, 
-    MatSelectModule
+    MatIconModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatSelectModule,
+    MatSnackBarModule
   ],
   entryComponents: [TaskDetailsComponent],
   providers: [AuthService],

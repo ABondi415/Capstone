@@ -96,6 +96,13 @@ export class HttpService {
       );
   };
 
+  updateUser(user: User): Observable<User> {
+    return this.http.put<User>(this.userUrl, user, httpOptions)
+      .pipe(
+        catchError(this.handleError<User>('updateUser'))
+      );
+  };
+
   addTask(task: Task): Observable<Task> {
     return this.http.post<Task>(this.taskUrl, task, httpOptions)
       .pipe(

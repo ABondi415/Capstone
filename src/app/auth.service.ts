@@ -106,6 +106,6 @@ export class AuthService {
   }
 
   isAuthenticated() {
-    return this.authenticated;
+    return localStorage.getItem('currentUser') != null ? true : false;
   }
 }

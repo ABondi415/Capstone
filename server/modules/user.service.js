@@ -26,4 +26,14 @@ service.getOrAddUser = async (user) => {
     }
 };
 
+service.updateUser = async (user) => {
+    const entity = {
+        key: dataService.getDataStoreKey('User', user.id),
+        data: user
+      };
+    const result = await dataService.update(entity);
+  
+    return result.Error ? result : result[0];
+};
+
 module.exports = service;
