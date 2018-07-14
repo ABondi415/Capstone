@@ -105,6 +105,11 @@ $zombie-app-primary: mat-palette($md-zombie-green);
 $zombie-app-accent:  mat-palette($md-zombie-grey);
 $zombie-app-warn:    mat-palette($md-zombie-red);
 
+$custom-typography: mat-typography-config(
+    $font-family: 'Gaegu'
+);
+
 $zombie-app-theme: mat-dark-theme($zombie-app-primary, $zombie-app-accent, $zombie-app-warn);
 
+@include angular-material-typography($custom-typography);
 @include angular-material-theme($zombie-app-theme);

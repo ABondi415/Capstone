@@ -3,8 +3,10 @@ const uuid = require('uuid/v1');
 
 const appEnvService = require('./app-env.service');
 const taskService = require('./task.service');
+const structjson = require('./google/structjson');
 
-const sessionClient = new dialogflow.SessionsClient();
+const sessionsClient = new dialogflow.v2.SessionsClient();
+const contextsClient = new dialogflow.v2.ContextsClient();
 const languageCode = 'en-US';
 
 const service = {};
@@ -43,12 +45,21 @@ service.handleIncomingMessage = async (message) => {
 };
 
 service.addTask = async (message) => {
+  const userIdContext = message.queryResult.outputContexts.find(c => c.name.endsWith('userid'));
+  if (!userIdContext)
+    return 'No user id context set';
+
   const task = {
-    'id': null,
-    'dueDate': null,
     'description': message.queryResult.parameters.taskDescription,
+    'dueDate': null,
+    'id': null,
     'selected': false,
-    'userId': null
+    'sprite': null,
+    'taskCompleted': false,
+    'taskDetail': '',
+    'taskPriority': false,
+    'userId': userIdContext.parameters.value,
+    'voiceReminder': false
   };
 
   const result = await taskService.addTask(task);
@@ -78,9 +89,40 @@ service.generateChatbotResponse = (responseMessage) => {
   return responseBody;
 };
 
-service.sendMessage = async (message, sessionId) => {
+service.createChatbotSession = async (userId) => {
+  if (!userId)
+    return null;
+
   const projectId = appEnvService.getVariable('PROJECT_ID');
-  const sessionPath = sessionClient.sessionPath(projectId, sessionId);
+  const sessionId = service.generateSessionId();
+  const contextId = 'userId';
+
+  const sessionPath = contextsClient.sessionPath(projectId, sessionId);
+  const contextPath = contextsClient.contextPath(projectId, sessionId, contextId);
+
+  const request = {
+    parent: sessionPath,
+    context: {
+      name: contextPath,
+      lifespanCount: 5,
+      parameters: structjson.jsonToStructProto({ value: userId })
+    }
+  };
+
+  await contextsClient.createContext(request);
+
+  return sessionId;
+};
+
+service.sendMessage = async (message, sessionId) => {
+  if (!message)
+    return null;
+  
+  if (!sessionId)
+    sessionId = service.generateSessionId();
+
+  const projectId = appEnvService.getVariable('PROJECT_ID');
+  const sessionPath = sessionsClient.sessionPath(projectId, sessionId);
 
   const request = {
     session: sessionPath,
@@ -92,9 +134,11 @@ service.sendMessage = async (message, sessionId) => {
     },
   };
 
-  const responses = await sessionClient.detectIntent(request);
-
-  return responses[0].queryResult;
+  const responses = await sessionsClient.detectIntent(request);
+  return {
+    body: responses[0],
+    sessionId: sessionId
+  };
 };
 
 module.exports = service;

@@ -13,12 +13,13 @@ import { AuthService } from '../auth.service';
 export class ChatWidgetComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('scrollBottom') private scrollContainer: ElementRef;
 
-  messages: Message[];
+  messages: Message[] = [];
   currentUserId: string;
   messagesSubscription: Subscription;
-  newMessageBody: string;
+  newMessageBody: string = "";
   newMessageReceived: boolean = false;
   messageSending: boolean = false;
+  chatbotSessionId: string = null;
 
   constructor(private httpService: HttpService,
               private authService: AuthService) { }
@@ -28,7 +29,6 @@ export class ChatWidgetComponent implements OnInit, OnDestroy, AfterViewChecked 
       throw new Error("Authentication required to enable chat.");
 
     this.currentUserId = JSON.parse(localStorage.getItem('currentUser')).userId;
-    this.httpService.getUserMessages(this.currentUserId).subscribe(messages => this.messages = messages);
 
     this.messagesSubscription = this.httpService.getMessages().subscribe(message => {
       if (!message || !message.body || message.body.length === 0 || message.userId !== this.currentUserId)
@@ -53,18 +53,28 @@ export class ChatWidgetComponent implements OnInit, OnDestroy, AfterViewChecked 
     let message = new Message(null, this.newMessageBody, new Date(), MessageType.OUTGOING, this.currentUserId);
 
     this.messageSending = true;
-    this.httpService.sendUserMessage(message, this.currentUserId)
-      .subscribe(m => {
-        this.newMessageBody = null;
+    this.newMessageBody = "";
+
+    this.httpService.sendUserMessage(message, this.currentUserId, this.chatbotSessionId)
+      .subscribe(chatbotSessionId => {
+        this.chatbotSessionId = chatbotSessionId;
         this.messageSending = false;
       });
   }
 
-  scrollToBottom() {
+  scrollToBottom(): void {
     if (!this.newMessageReceived) { return; }
 
     let element = this.scrollContainer.nativeElement;
     element.scrollTop = element.scrollHeight;
     this.newMessageReceived = false;
+  }
+
+  onKey(event: KeyboardEvent): void {
+    if (event.key !== "Enter") return;
+
+    if (!this.newMessageBody || this.newMessageBody.length === 0) return;
+
+    this.sendMessage();
   }
 }

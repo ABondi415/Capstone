@@ -47,21 +47,22 @@ export class HttpService {
       .pipe(
         map(messages => {
           messages.forEach(m => m.createdDateTime = new Date(m.createdDateTime));
-          return messages.sort((a, b) => { return a.createdDateTime.valueOf() - b.createdDateTime.valueOf(); });
+          return messages.sort((a, b) => { return b.createdDateTime.valueOf() - a.createdDateTime.valueOf(); });
         }),
         catchError(this.handleError<Message[]>('getUserMessages', []))
       );
   }
 
-  sendUserMessage(message: Message, userId: string): Observable<Message> {
+  sendUserMessage(message: Message, userId: string, chatbotSessionId: string): Observable<string> {
     let body = {
       message: message,
-      userId: userId
+      userId: userId,
+      chatbotSessionId: chatbotSessionId
     };
 
-    return this.http.post<Message>(this.messageUrl, body, httpOptions)
+    return this.http.post<string>(this.messageUrl, body, httpOptions)
       .pipe(
-        catchError(this.handleError<Message>('sendUserMessage'))
+        catchError(this.handleError<string>('sendUserMessage'))
       );
   }
 

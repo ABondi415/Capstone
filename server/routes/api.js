@@ -22,14 +22,11 @@ router.get('/healthCheck', (request, response, next) => {
 router.post('/chatbot', async (request, response, next) => {
   const loggingId = logger.generateId();
   const timestamp = moment().format(logger.timestampFormat);
-  const io = request.app.get('io');
 
   logger.info('Incoming chatbot webhook message', loggingId, timestamp);
 
   const incomingMessage = request.body;
   const chatbotResponse = await chatbotService.handleIncomingMessage(incomingMessage);
-
-  io.emit('INCOMING', chatbotResponse.fulfillmentText);
 
   next(chatbotResponse);
 });
@@ -128,15 +125,32 @@ router.post('/message', async (request, response, next) => {
   const loggingId = logger.generateId();
   const timestamp = moment().format(logger.timestampFormat);
   const io = request.app.get('io');
-  logger.info('Adding new message', loggingId, timestamp);
+  logger.info('Sending new message to chatbot', loggingId, timestamp);
 
-  const message = request.body.message;
+  const outgoingMessage = request.body.message;
   const userId = request.body.userId;
 
-  const result = await messageService.addMessage(message, userId);
-  io.emit('OUTGOING', result);
+  let sessionId = request.body.chatbotSessionId;
+  if (!sessionId)
+    sessionId = await chatbotService.createChatbotSession(userId);
 
-  next(result);
+  const outgoingAddMessageResult = await messageService.addMessage(outgoingMessage, userId, sessionId);
+  io.emit('OUTGOING', outgoingAddMessageResult);
+
+  const chatbotResponse = await chatbotService.sendMessage(outgoingMessage.body, sessionId);
+
+  const responseMessage = {
+    id: chatbotResponse.body.responseId,
+    body: chatbotResponse.body.queryResult.fulfillmentText,
+    createdDateTime: new Date(),
+    type: 0,
+    userId: userId
+  };
+
+  const incomingAddMessageResult = await messageService.addMessage(responseMessage, userId, sessionId);
+  io.emit('INCOMING', incomingAddMessageResult);
+
+  next(chatbotResponse.sessionId);
 });
 
 module.exports = router;
