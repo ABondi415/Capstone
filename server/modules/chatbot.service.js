@@ -41,6 +41,8 @@ service.getChatbotActionHandler = (actionText) => {
       return service.addTask;
     case 'HOW_MANY_TASKS':
       return service.getTaskCount;
+    case 'HOW_MANY_ACTIVE_TASKS':
+      return service.getActiveTaskCount;
   }
 
   return null;
@@ -80,9 +82,27 @@ service.getTaskCount = async (message) => {
     return service.errorMessage;
   
   if (result.length === 1)
+    return 'You have 1 task';
+  
+  return `You have ${result.length} total tasks`;
+};
+
+service.getActiveTaskCount = async (message) => {
+  const userInfoContext = message.queryResult.outputContexts.find(c => c.name.endsWith('userinfo'));
+  if (!userInfoContext)
+    return 'No user info context set';
+  
+  const result = await taskService.getUserTasks(userInfoContext.parameters.userId);
+
+  if (result.Error)
+    return service.errorMessage;
+  
+  const activeTasks = result.filter(task => task.taskCompleted === false);
+  
+  if (activeTasks.length === 1)
     return 'You have 1 active task';
   
-  return `You have ${result.length} active tasks`;
+  return `You have ${activeTasks.length} active tasks`;
 };
 
 service.generateChatbotResponse = (responseMessage) => {
