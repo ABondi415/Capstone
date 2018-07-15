@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
 import { AuthService } from '../auth.service';
+
 
 @Component({
   selector: 'app-login',
@@ -11,7 +11,7 @@ export class LoginComponent implements OnInit {
   isAuthenticated: boolean;
 
   constructor(
-    public auth: AuthService
+    public auth: AuthService,
   ) { }
 
   ngOnInit() {

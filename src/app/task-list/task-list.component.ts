@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../http.service';
 import { Observable, forkJoin } from 'rxjs';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
+
 
 import { TaskDetailsComponent } from '../task-details/task-details.component';
 
@@ -27,12 +28,17 @@ export class TaskListComponent implements OnInit {
   constructor(
     private httpService: HttpService,
     private authService: AuthService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) { }
 
   ngOnInit() {
     if(this.authService.isAuthenticated){
       let currentUserId = JSON.parse(localStorage.getItem('currentUser')).userId;
-      this.httpService.getUserTasks(currentUserId).subscribe(tasks =>  this.taskList = tasks);
+      this.httpService.getUserTasks(currentUserId).subscribe(tasks =>  {
+        this.taskList = tasks
+        this.showReminders();
+      });
     }
   }
 
@@ -69,6 +75,14 @@ export class TaskListComponent implements OnInit {
           this.removeTask(result);
       });
     });
+  }
+
+  showReminders(){
+    let hasBeenReminded: boolean = JSON.parse(localStorage.getItem('hasBeenReminded'));
+    if( this.taskList.length > 0 && !hasBeenReminded){
+      localStorage.setItem('hasBeenReminded', "true");
+      this.snackBar.open("Keep the zombies at bay, complete a task to increase your score!", "Got it!", {duration: 5000});
+    }
   }
 
   toggleSelection(task: Task): void {

@@ -86,6 +86,7 @@ export class AuthService {
     let user = new User(null, profile.sub, profile.given_name, profile.family_name, profile.email, 0);
     this.httpService.getOrCreateUser(user).subscribe(user_profile => {
       localStorage.setItem('currentUser', JSON.stringify(user_profile));
+      localStorage.setItem('hasBeenReminded', "false");
       this.router.navigate(['/task-list'])
     });
   }
