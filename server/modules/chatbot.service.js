@@ -17,15 +17,6 @@ service.generateSessionId = () => {
   return uuid();
 };
 
-service.getChatbotActionHandler = (actionText) => {
-  switch (actionText) {
-    case 'ADD_TASK':
-      return service.addTask;
-  }
-
-  return null;
-};
-
 service.handleIncomingMessage = async (message) => {
   const actionText = message.queryResult.intent.displayName;
   const actionHandler = service.getChatbotActionHandler(actionText);
@@ -44,10 +35,21 @@ service.handleIncomingMessage = async (message) => {
   return service.generateChatbotResponse(actionResponseMessage);
 };
 
+service.getChatbotActionHandler = (actionText) => {
+  switch (actionText) {
+    case 'ADD_TASK':
+      return service.addTask;
+    case 'HOW_MANY_TASKS':
+      return service.getTaskCount;
+  }
+
+  return null;
+};
+
 service.addTask = async (message) => {
-  const userIdContext = message.queryResult.outputContexts.find(c => c.name.endsWith('userid'));
-  if (!userIdContext)
-    return 'No user id context set';
+  const userInfoContext = message.queryResult.outputContexts.find(c => c.name.endsWith('userinfo'));
+  if (!userInfoContext)
+    return 'No user info context set';
 
   const task = {
     'description': message.queryResult.parameters.taskDescription,
@@ -58,13 +60,29 @@ service.addTask = async (message) => {
     'taskCompleted': false,
     'taskDetail': '',
     'taskPriority': false,
-    'userId': userIdContext.parameters.value,
+    'userId': userInfoContext.parameters.userId,
     'voiceReminder': false
   };
 
   const result = await taskService.addTask(task);
 
   return result.Error ? service.errorMessage : 'Ok, you\'re all set!';
+};
+
+service.getTaskCount = async (message) => {
+  const userInfoContext = message.queryResult.outputContexts.find(c => c.name.endsWith('userinfo'));
+  if (!userInfoContext)
+    return 'No user info context set';
+  
+  const result = await taskService.getUserTasks(userInfoContext.parameters.userId);
+
+  if (result.Error)
+    return service.errorMessage;
+  
+  if (result.length === 1)
+    return 'You have 1 active task';
+  
+  return `You have ${result.length} active tasks`;
 };
 
 service.generateChatbotResponse = (responseMessage) => {
@@ -89,13 +107,13 @@ service.generateChatbotResponse = (responseMessage) => {
   return responseBody;
 };
 
-service.createChatbotSession = async (userId) => {
-  if (!userId)
+service.createChatbotSession = async (user) => {
+  if (!user)
     return null;
 
   const projectId = appEnvService.getVariable('PROJECT_ID');
   const sessionId = service.generateSessionId();
-  const contextId = 'userId';
+  const contextId = 'userInfo';
 
   const sessionPath = contextsClient.sessionPath(projectId, sessionId);
   const contextPath = contextsClient.contextPath(projectId, sessionId, contextId);
@@ -105,7 +123,7 @@ service.createChatbotSession = async (userId) => {
     context: {
       name: contextPath,
       lifespanCount: 5,
-      parameters: structjson.jsonToStructProto({ value: userId })
+      parameters: structjson.jsonToStructProto(user)
     }
   };
 

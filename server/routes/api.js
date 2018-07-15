@@ -128,13 +128,13 @@ router.post('/message', async (request, response, next) => {
   logger.info('Sending new message to chatbot', loggingId, timestamp);
 
   const outgoingMessage = request.body.message;
-  const userId = request.body.userId;
+  const user = request.body.user;
 
   let sessionId = request.body.chatbotSessionId;
   if (!sessionId)
-    sessionId = await chatbotService.createChatbotSession(userId);
+    sessionId = await chatbotService.createChatbotSession(user);
 
-  const outgoingAddMessageResult = await messageService.addMessage(outgoingMessage, userId, sessionId);
+  const outgoingAddMessageResult = await messageService.addMessage(outgoingMessage);
   io.emit('OUTGOING', outgoingAddMessageResult);
 
   const chatbotResponse = await chatbotService.sendMessage(outgoingMessage.body, sessionId);
@@ -144,10 +144,10 @@ router.post('/message', async (request, response, next) => {
     body: chatbotResponse.body.queryResult.fulfillmentText,
     createdDateTime: new Date(),
     type: 0,
-    userId: userId
+    userId: user.userId
   };
 
-  const incomingAddMessageResult = await messageService.addMessage(responseMessage, userId, sessionId);
+  const incomingAddMessageResult = await messageService.addMessage(responseMessage);
   io.emit('INCOMING', incomingAddMessageResult);
 
   next(chatbotResponse.sessionId);

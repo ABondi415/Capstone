@@ -40,8 +40,8 @@ export class HttpService {
       );
   };
 
-  getUserMessages(userId: string): Observable<Message[]> {
-    let params = new HttpParams().set('userId', userId);
+  getUserMessages(user: User): Observable<Message[]> {
+    let params = new HttpParams().set('userId', user.userId);
 
     return this.http.get<Message[]>(this.messageUrl, { 'headers': httpOptions.headers, 'params': params })
       .pipe(
@@ -53,10 +53,10 @@ export class HttpService {
       );
   }
 
-  sendUserMessage(message: Message, userId: string, chatbotSessionId: string): Observable<string> {
+  sendUserMessage(message: Message, user: User, chatbotSessionId: string): Observable<string> {
     let body = {
       message: message,
-      userId: userId,
+      user: user,
       chatbotSessionId: chatbotSessionId
     };
 

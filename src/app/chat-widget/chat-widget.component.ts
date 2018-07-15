@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Message, MessageType } from '../model/message';
 import { HttpService } from '../http.service';
 import { AuthService } from '../auth.service';
+import { User } from '../model/user';
 
 @Component({
   selector: 'app-chat-widget',
@@ -14,7 +15,7 @@ export class ChatWidgetComponent implements OnInit, OnDestroy, AfterViewChecked 
   @ViewChild('scrollBottom') private scrollContainer: ElementRef;
 
   messages: Message[] = [];
-  currentUserId: string;
+  currentUser: User;
   messagesSubscription: Subscription;
   newMessageBody: string = "";
   newMessageReceived: boolean = false;
@@ -28,10 +29,10 @@ export class ChatWidgetComponent implements OnInit, OnDestroy, AfterViewChecked 
     if (!this.authService.isAuthenticated)
       throw new Error("Authentication required to enable chat.");
 
-    this.currentUserId = JSON.parse(localStorage.getItem('currentUser')).userId;
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
     this.messagesSubscription = this.httpService.getMessages().subscribe(message => {
-      if (!message || !message.body || message.body.length === 0 || message.userId !== this.currentUserId)
+      if (!message || !message.body || message.body.length === 0 || message.userId !== this.currentUser.userId)
         return;
       
       this.messages.push(message);
@@ -50,12 +51,12 @@ export class ChatWidgetComponent implements OnInit, OnDestroy, AfterViewChecked 
   sendMessage(): void {
     if (this.messageSending) return;
 
-    let message = new Message(null, this.newMessageBody, new Date(), MessageType.OUTGOING, this.currentUserId);
+    let message = new Message(null, this.newMessageBody, new Date(), MessageType.OUTGOING, this.currentUser.userId);
 
     this.messageSending = true;
     this.newMessageBody = "";
 
-    this.httpService.sendUserMessage(message, this.currentUserId, this.chatbotSessionId)
+    this.httpService.sendUserMessage(message, this.currentUser, this.chatbotSessionId)
       .subscribe(chatbotSessionId => {
         this.chatbotSessionId = chatbotSessionId;
         this.messageSending = false;
