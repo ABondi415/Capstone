@@ -21,7 +21,7 @@ export class GameComponent implements OnInit {
   taskList: Array<Task> = [];
 
   //set up a gameUser
-  gameUser = new User(null, null, null, null, null);
+  gameUser = new User(null, null, null, null, null, null);
 
   /** Template reference to the canvas element */
   @ViewChild('canvasEl') canvasEl: ElementRef;

@@ -14,10 +14,11 @@ export class ProfileComponent implements OnInit {
   userForm: FormGroup;
   userScore: number;
   user: User = new User(
-    JSON.parse(localStorage.getItem('currentUser')).userId, 
-    JSON.parse(localStorage.getItem('currentUser')).firstName, 
-    JSON.parse(localStorage.getItem('currentUser')).lastName, 
-    JSON.parse(localStorage.getItem('currentUser')).emailAddress, 
+    JSON.parse(localStorage.getItem('currentUser')).id,
+    JSON.parse(localStorage.getItem('currentUser')).userId,
+    JSON.parse(localStorage.getItem('currentUser')).firstName,
+    JSON.parse(localStorage.getItem('currentUser')).lastName,
+    JSON.parse(localStorage.getItem('currentUser')).emailAddress,
     JSON.parse(localStorage.getItem('currentUser')).score
   )
 
