@@ -5,6 +5,7 @@ export class User {
     public firstName: string,
     public lastName: string,
     public emailAddress: string,
-    public score: number
+    public score: number,
+    public sprite: string
   ) { }
 }

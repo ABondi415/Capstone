@@ -19,7 +19,8 @@ export class ProfileComponent implements OnInit {
     JSON.parse(localStorage.getItem('currentUser')).firstName,
     JSON.parse(localStorage.getItem('currentUser')).lastName,
     JSON.parse(localStorage.getItem('currentUser')).emailAddress,
-    JSON.parse(localStorage.getItem('currentUser')).score
+    JSON.parse(localStorage.getItem('currentUser')).score,
+    JSON.parse(localStorage.getItem('currentUser')).sprite
   )
 
   constructor(

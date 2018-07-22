@@ -23,9 +23,9 @@ export class GameComponent implements OnInit {
   taskList: Array<Task> = [];
 
   //set up a gameUser
-  gameUser = new User(null, null, null, null, null, null);
+  gameUser = new User(null, null, null, null, null, null, 'greenSmile');
 
-  dataLoaded = false;
+  gameDataLoaded = false;
 
   /** Template reference to the canvas element */
   @ViewChild('canvasEl') canvasEl: ElementRef;
@@ -55,22 +55,18 @@ export class GameComponent implements OnInit {
         .subscribe (([tasks,user]) => {
             this.taskList = tasks;
             this.gameUser = user;
-            this.dataLoaded = true;
+            this.gameDataLoaded = true;
         }); 
     }
 
 
-    //get the canvas element from the html
-    this.context = (this.canvasEl.nativeElement as HTMLCanvasElement).getContext('2d');
-
-      //create a stage on the canvas
-    var stage = new createjs.Stage(this.canvasEl.nativeElement as HTMLCanvasElement);
-    this.draw(stage);
-
   }
 
   //draw on the canvas
-  private draw(stage) {
+  draw(stage) {
+
+    stage.clear();
+    stage.removeAllChildren();
 
     this.generateHero(stage);
     this.generateEnemy(stage);
@@ -79,14 +75,22 @@ export class GameComponent implements OnInit {
     stage.update();
   }
 
+  refreshCanvas(){
+    //create a stage on the canvas
+    this.context = (this.canvasEl.nativeElement as HTMLCanvasElement).getContext('2d');
+
+    var stage = new createjs.Stage(this.canvasEl.nativeElement as HTMLCanvasElement);
+    this.draw(stage);
+  }
+
 
   generateHero(stage) {
       //draw the hero image
       var heroImg = new Image();
-      heroImg.src = '../assets/Smile.png';
+      heroImg.src = this.getImgSrc(this.gameUser.sprite);
    
       heroImg.onload = function() {
-        var heroBitmap = new createjs.Bitmap('../assets/Smile.png');
+        var heroBitmap = new createjs.Bitmap(heroImg.src);
         heroBitmap.x = 10;
         heroBitmap.y = 150;
         stage.addChild(heroBitmap);
@@ -109,6 +113,32 @@ export class GameComponent implements OnInit {
     }
   }
 
+  getImgSrc(imgName:string): string {
+    var imgSrc = "";
+    switch (this.gameUser.sprite) {
+      case 'redSmile':
+        imgSrc = '../assets/Smile Red.png';
+        break;
+      case 'orangeSmile':
+        imgSrc = '../assets/Smile Orange.png';
+        break;
+      case 'yellowSmile':
+        imgSrc = '../assets/Smile Yellow.png';
+        break;
+      case 'greenSmile':
+        imgSrc = '../assets/Smile Green.png';
+        break;
+      case 'blueSmile':
+        imgSrc = '../assets/Smile Blue.png';
+        break;
+      case 'purpleSmile':
+        imgSrc = '../assets/Smile Purple.png';
+        break;
+      default: 
+        imgSrc = '../assets/Smile Orange.png';
+    }
+    return (imgSrc);
+  }
 
 
 }
