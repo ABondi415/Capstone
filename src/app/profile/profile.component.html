@@ -32,6 +32,31 @@
           <h1>{{ user.score }} points </h1>
         </mat-card-content>
       </mat-card>
+
+      <mat-card class="heroImageCard">
+        <mat-card-header>
+            <mat-card-title>Hero Image</mat-card-title>
+          </mat-card-header>
+        <mat-card-content>
+      
+          <mat-form-field>
+              <mat-select placeholder= "Hero Image" [(ngModel)]="this.user.sprite">
+                <mat-option value="redSmile">Red Smile</mat-option>
+                <mat-option value="orangeSmile">Orange Smile</mat-option>
+                <mat-option value="yellowSmile">Yellow Smile</mat-option>
+                <mat-option value="greenSmile">Green Smile</mat-option>
+                <mat-option value="blueSmile">Blue Smile</mat-option>
+                <mat-option value="purpleSmile">Purple Smile</mat-option>
+                <mat-option value="">None</mat-option>
+              </mat-select>
+          </mat-form-field>
+          <button (click)="saveImage()">Save Hero Image</button>
+          
+          
+        </mat-card-content>
+      </mat-card>
+
+
     </div>
   </div>
   <!-- <p>Form value: {{ userForm.value | json }}</p> -->

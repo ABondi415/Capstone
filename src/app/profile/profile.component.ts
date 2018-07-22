@@ -51,4 +51,10 @@ export class ProfileComponent implements OnInit {
   saveUser() {
     console.log('saving user');
   }
+
+  saveImage(){
+    this.httpService.updateUser(this.user).subscribe(user => this.user);
+
+  }
+
 }
