@@ -1,6 +1,8 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { Observable, forkJoin } from 'rxjs';
+
 import { HttpService } from '../http.service';
 import { AuthService } from '../auth.service';
 import { Task } from '../model/task';
@@ -23,11 +25,14 @@ export class GameComponent implements OnInit {
   //set up a gameUser
   gameUser = new User(null, null, null, null, null, null);
 
+  dataLoaded = false;
+
   /** Template reference to the canvas element */
   @ViewChild('canvasEl') canvasEl: ElementRef;
 
   /** Canvas 2d context */
   private context: CanvasRenderingContext2D;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -41,35 +46,56 @@ export class GameComponent implements OnInit {
     // get the user and task data
     if(this.authService.isAuthenticated){
       let currentUserId = JSON.parse(localStorage.getItem('currentUser')).userId;
-      this.httpService.getUserTasks(currentUserId).subscribe(tasks =>  this.taskList = tasks);
       this.gameUser.userId = currentUserId;
-      this.httpService.getOrCreateUser(this.gameUser).subscribe(user => this.gameUser = user);
+
+      let service1 = this.httpService.getUserTasks(currentUserId);
+      let service2 = this.httpService.getOrCreateUser(this.gameUser);
+
+      forkJoin(service1, service2)
+        .subscribe (([tasks,user]) => {
+            this.taskList = tasks;
+            this.gameUser = user;
+            this.dataLoaded = true;
+        }); 
     }
 
 
     //get the canvas element from the html
     this.context = (this.canvasEl.nativeElement as HTMLCanvasElement).getContext('2d');
-    this.draw();
+
+      //create a stage on the canvas
+    var stage = new createjs.Stage(this.canvasEl.nativeElement as HTMLCanvasElement);
+    this.draw(stage);
 
   }
 
   //draw on the canvas
-  private draw() {
-    //create a stage on the canvas
-    var stage = new createjs.Stage(this.canvasEl.nativeElement as HTMLCanvasElement);
+  private draw(stage) {
 
-    //draw the hero image
-    var heroImg = new Image();
-    heroImg.src = '../assets/Smile.png';
- 
-    heroImg.onload = function() {
-      var heroBitmap = new createjs.Bitmap('../assets/Smile.png');
-      heroBitmap.x = 10;
-      heroBitmap.y = 150;
-      stage.addChild(heroBitmap);
-      stage.update()
-    }
+    this.generateHero(stage);
+    this.generateEnemy(stage);
 
+    //update the stage
+    stage.update();
+  }
+
+
+  generateHero(stage) {
+      //draw the hero image
+      var heroImg = new Image();
+      heroImg.src = '../assets/Smile.png';
+   
+      heroImg.onload = function() {
+        var heroBitmap = new createjs.Bitmap('../assets/Smile.png');
+        heroBitmap.x = 10;
+        heroBitmap.y = 150;
+        stage.addChild(heroBitmap);
+        stage.update()
+      }
+  }
+
+
+  generateEnemy(stage) {
     //draw the enemy image
     var enemyImg = new Image()
     enemyImg.src ='../assets/Zombie.png';
@@ -81,10 +107,9 @@ export class GameComponent implements OnInit {
       stage.addChild(enemyBitmap);
       stage.update()
     }
-
-    //update the stage
-    stage.update();
   }
+
+
 
 }
 
