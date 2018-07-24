@@ -26,6 +26,14 @@ export class GameComponent implements OnInit {
   gameUser = new User(null, null, null, null, null, null, 'greenSmile');
 
   gameDataLoaded = false;
+      //set tags to handle duplicate location
+  x1: number = 0; 
+  x2: number = 0; 
+  x3: number = 0; 
+  x4: number = 0;
+  x5: number = 0; 
+  x6: number = 0;
+  x7: number = 0;
 
   /** Template reference to the canvas element */
   @ViewChild('canvasEl') canvasEl: ElementRef;
@@ -70,10 +78,12 @@ export class GameComponent implements OnInit {
 
     this.generateHero(stage);
 
+    //reset tags to handle duplicate location
+    this.x1 = this.x2 = this.x3 = this.x4 = this.x5 = this.x6 = this.x7 = 0
+
     //for each enemy task, add an image
     for (var i in this.taskList) {
       var spriteName = this.taskList[i].sprite;
-      alert(spriteName);
       
       //calculate days remaining
       var today = new Date()
@@ -84,22 +94,16 @@ export class GameComponent implements OnInit {
 
       if (taskDueTime > todaysTime) {
         var timeDiff = Math.abs(taskDueTime - todaysTime);
-        alert (timeDiff);
         var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
-        alert ("diffDays:" + diffDays);
       
 
         if ((this.taskList[i].taskCompleted != true) && (spriteName != "") && (diffDays > 0) && (diffDays < 8)) {
-          //calculate the sprite location
-          alert("inside the create image if")
           var x = this.getImgLoc(diffDays);
           this.generateEnemy(stage, spriteName, x);
-          alert (x);
         }  
       }
     }
     
-
     //update the stage
     stage.update();
   }
@@ -122,6 +126,7 @@ export class GameComponent implements OnInit {
         var heroBitmap = new createjs.Bitmap(heroImg.src);
         heroBitmap.x = 10;
         heroBitmap.y = 150;
+        heroBitmap.addEventListener("click", function(heroEvent) {alert("clicked Hero");});
         stage.addChild(heroBitmap);
         stage.update()
       }
@@ -137,6 +142,7 @@ export class GameComponent implements OnInit {
       var enemyBitmap = new createjs.Bitmap(enemyImg);
       enemyBitmap.x = x;
       enemyBitmap.y = 150;
+      enemyBitmap.addEventListener("click", function(enemyEvent) {alert("clicked Enemy");});
       stage.addChild(enemyBitmap);
       stage.update()
     }
@@ -171,35 +177,53 @@ export class GameComponent implements OnInit {
 
   getImgLoc(diffDays:number): number {
     var x = 0;
+    var offset = 0;
     switch (diffDays) {
       case 0:
         x = 50;
+        this.x1 = this.x1 + 15;
+        offset = this.x1;
         break;
       case 1:
         x = 100;
+        this.x2 = this.x2 + 15;
+        offset = this.x2;
         break;
       case 2:
         x = 200;
+        this.x3 = this.x3+ 15;
+        offset = this.x3;
         break;
       case 3:
         x = 300;
+        this.x3 = this.x3 + 15;
+        offset = this.x3;
         break;
       case 4:
         x = 400;
+        this.x4 = this.x4 + 15;
+        offset = this.x4;
         break;
       case 5:
         x = 500;
+        this.x5 = this.x5 + 15;
+        offset = this.x5;
         break;
       case 6:
         x = 600;
+        this.x6 = this.x6 + 15;
+        offset = this.x6;
         break;
       case 7:
         x = 700;
+        this.x7 = this.x7 + 15;
+        offset = this.x7;
         break;
       default: 
         x = 750;
         break;
     }
+    x = x + offset;
     return (x);
   }
 
