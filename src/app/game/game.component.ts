@@ -69,7 +69,36 @@ export class GameComponent implements OnInit {
     stage.removeAllChildren();
 
     this.generateHero(stage);
-    this.generateEnemy(stage);
+
+    //for each enemy task, add an image
+    for (var i in this.taskList) {
+      var spriteName = this.taskList[i].sprite;
+      alert(spriteName);
+      
+      //calculate days remaining
+      var today = new Date()
+      var todaysTime = today.getTime();
+
+      var taskDueDate = new Date(this.taskList[i].dueDate)
+      var taskDueTime = taskDueDate.getTime();
+
+      if (taskDueTime > todaysTime) {
+        var timeDiff = Math.abs(taskDueTime - todaysTime);
+        alert (timeDiff);
+        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+        alert ("diffDays:" + diffDays);
+      
+
+        if ((this.taskList[i].taskCompleted != true) && (spriteName != "") && (diffDays > 0) && (diffDays < 8)) {
+          //calculate the sprite location
+          alert("inside the create image if")
+          var x = this.getImgLoc(diffDays);
+          this.generateEnemy(stage, spriteName, x);
+          alert (x);
+        }  
+      }
+    }
+    
 
     //update the stage
     stage.update();
@@ -99,14 +128,14 @@ export class GameComponent implements OnInit {
   }
 
 
-  generateEnemy(stage) {
+  generateEnemy(stage, imgName:string, x:number) {
     //draw the enemy image
     var enemyImg = new Image()
-    enemyImg.src ='../assets/Zombie.png';
+    enemyImg.src = this.getImgSrc(imgName);
 
     enemyImg.onload = function() {
       var enemyBitmap = new createjs.Bitmap(enemyImg);
-      enemyBitmap.x = 700;
+      enemyBitmap.x = x;
       enemyBitmap.y = 150;
       stage.addChild(enemyBitmap);
       stage.update()
@@ -115,7 +144,7 @@ export class GameComponent implements OnInit {
 
   getImgSrc(imgName:string): string {
     var imgSrc = "";
-    switch (this.gameUser.sprite) {
+    switch (imgName) {
       case 'redSmile':
         imgSrc = '../assets/Smile Red.png';
         break;
@@ -138,6 +167,40 @@ export class GameComponent implements OnInit {
         imgSrc = '../assets/Smile Orange.png';
     }
     return (imgSrc);
+  }
+
+  getImgLoc(diffDays:number): number {
+    var x = 0;
+    switch (diffDays) {
+      case 0:
+        x = 50;
+        break;
+      case 1:
+        x = 100;
+        break;
+      case 2:
+        x = 200;
+        break;
+      case 3:
+        x = 300;
+        break;
+      case 4:
+        x = 400;
+        break;
+      case 5:
+        x = 500;
+        break;
+      case 6:
+        x = 600;
+        break;
+      case 7:
+        x = 700;
+        break;
+      default: 
+        x = 750;
+        break;
+    }
+    return (x);
   }
 
 
