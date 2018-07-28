@@ -90,4 +90,12 @@ export class TaskListComponent implements OnInit {
       
     });
   }
+
+  onKey(event: KeyboardEvent): void {
+    if (event.key !== "Enter") return;
+
+    if (!this.newTaskDescription || this.newTaskDescription.length === 0) return;
+
+    this.addTask();
+  }
 }

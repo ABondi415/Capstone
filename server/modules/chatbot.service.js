@@ -43,6 +43,8 @@ service.getChatbotActionHandler = (actionText) => {
       return service.getTaskCount;
     case 'HOW_MANY_ACTIVE_TASKS':
       return service.getActiveTaskCount;
+    case 'NEXT_TASK':
+      return service.getNextTask;
   }
 
   return null;
@@ -103,6 +105,32 @@ service.getActiveTaskCount = async (message) => {
     return 'You have 1 active task';
   
   return `You have ${activeTasks.length} active tasks`;
+};
+
+service.getNextTask = async (message) => {
+  const userInfoContext = message.queryResult.outputContexts.find(c => c.name.endsWith('userinfo'));
+  if (!userInfoContext)
+    return 'No user info context set';
+  
+  const result = await taskService.getUserTasks(userInfoContext.parameters.userId);
+
+  if (result.Error)
+    return service.errorMessage;
+  
+  const activeTasks = result.filter(task => task.taskCompleted === false);
+  
+  if (activeTasks.length === 0)
+    return 'You don\'t have any active tasks.';
+  
+  if (activeTasks.length === 1)
+    return activeTasks[0].dueDate ?
+      `Your next task is: ${activeTasks[0].description}, due on ${activeTasks[0].dueDate}.` :
+      `Your next task is: ${activeTasks[0].description}`;
+
+  var sortedTasks = activeTasks.filter(t => t.dueDate).sort((a, b) => { return new Date(a.dueDate).valueOf() - new Date(b.dueDate).valueOf(); });
+  return sortedTasks.length > 0 ?
+    `Your next task is: ${sortedTasks[0].description}, due on ${sortedTasks[0].dueDate}.` :
+    `Your next task is: ${activeTasks[0].description}.`;
 };
 
 service.generateChatbotResponse = (responseMessage) => {

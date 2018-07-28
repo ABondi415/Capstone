@@ -1,10 +1,10 @@
 <div class="container">
   <div id="add-task-form">
     <mat-form-field>
-      <input [(ngModel)]="newTaskDescription" matInput placeholder="Enter new task">
+      <input [(ngModel)]="newTaskDescription" (keydown)="onKey($event)" matInput placeholder="Enter new task">
     </mat-form-field>
     <div class="button-container">
-      <button (click)="addTask()" mat-raised-button color="primary">Add</button>
+      <button (click)="addTask()" [disabled]="newTaskDescription.length === 0" mat-raised-button color="primary">Add</button>
     </div>
     <div class="button-container">
       <button (click)="editTask()" [disabled]="taskSelectionList.selectedOptions.selected.length != 1" mat-raised-button color="accent">Edit</button>
