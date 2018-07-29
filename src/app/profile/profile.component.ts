@@ -13,6 +13,7 @@ import { DISABLED } from '@angular/forms/src/model';
 export class ProfileComponent implements OnInit {
   userForm: FormGroup;
   userScore: number;
+  
   user: User = new User(
     JSON.parse(localStorage.getItem('currentUser')).id,
     JSON.parse(localStorage.getItem('currentUser')).userId,
@@ -49,11 +50,11 @@ export class ProfileComponent implements OnInit {
   }
 
   saveUser() {
-    console.log('saving user');
+    this.httpService.updateUser(this.user).subscribe(user => this.user);
   }
 
   saveImage(){
-    this.httpService.updateUser(this.user).subscribe(user => this.user);
+    this.saveUser();
 
   }
 
