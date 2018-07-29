@@ -1,6 +1,8 @@
 <div>
     <p>Current User Name: {{gameUser.firstName}}</p>
     <p>Score: {{gameUser.score}}</p>
+    <p>Image: {{gameUser.sprite}}</p>
+    <button mat-button (click)="refreshCanvas()" [disabled]="!this.gameDataLoaded" color="accent">Draw Image</button>
 </div>
 
 
@@ -8,3 +10,4 @@
     <canvas #canvasEl width=800 height=200 
     style="border:1px solid #000000;"></canvas>
 </div>
+

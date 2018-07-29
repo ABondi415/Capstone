@@ -41,6 +41,12 @@ service.getChatbotActionHandler = (actionText) => {
       return service.addTask;
     case 'HOW_MANY_TASKS':
       return service.getTaskCount;
+    case 'HOW_MANY_ACTIVE_TASKS':
+      return service.getActiveTaskCount;
+    case 'NEXT_TASK':
+      return service.getNextTaskResponse;
+    case 'NEXT_TASK_COMPLETED':
+      return service.nextTaskCompleted;
   }
 
   return null;
@@ -80,9 +86,98 @@ service.getTaskCount = async (message) => {
     return service.errorMessage;
   
   if (result.length === 1)
+    return 'You have 1 task';
+  
+  return `You have ${result.length} total tasks`;
+};
+
+service.getActiveTaskCount = async (message) => {
+  const userInfoContext = message.queryResult.outputContexts.find(c => c.name.endsWith('userinfo'));
+  if (!userInfoContext)
+    return 'No user info context set';
+  
+  const result = await taskService.getUserTasks(userInfoContext.parameters.userId);
+
+  if (result.Error)
+    return service.errorMessage;
+  
+  const activeTasks = result.filter(task => task.taskCompleted === false);
+  
+  if (activeTasks.length === 1)
     return 'You have 1 active task';
   
-  return `You have ${result.length} active tasks`;
+  return `You have ${activeTasks.length} active tasks`;
+};
+
+service.getNextTask = (taskList) => {
+  if (!taskList || taskList.length === 0)
+    return null;
+
+  const activeTasks = taskList.filter(task => task.taskCompleted === false);
+
+  if (activeTasks.length === 0) return null;
+
+  if (activeTasks.length === 1) return activeTasks[0];
+
+  const activeTasksWithDueDate = activeTasks.filter(t => t.dueDate);
+
+  if (activeTasksWithDueDate.length === 0) return activeTasks[0];
+
+  if (activeTasksWithDueDate === 1) return activeTasksWithDueDate[0];
+
+  return activeTasksWithDueDate.sort((a, b) => { return new Date(a.dueDate).valueOf() - new Date(b.dueDate).valueOf(); })[0];
+};
+
+service.getNextTaskResponse = async (message) => {
+  const userInfoContext = message.queryResult.outputContexts.find(c => c.name.endsWith('userinfo'));
+  if (!userInfoContext)
+    return 'No user info context set';
+  
+  const result = await taskService.getUserTasks(userInfoContext.parameters.userId);
+
+  if (result.Error)
+    return service.errorMessage;
+  
+  const nextTask = service.getNextTask(result);
+  
+  if (!nextTask)
+    return 'You don\'t have any active tasks.';
+
+  return nextTask.dueDate ?
+    `Your next task is: ${nextTask.description}, due on ${nextTask.dueDate}.` :
+    `Your next task is: ${nextTask.description}.`;
+};
+
+service.nextTaskCompleted = async (message) => {
+  const userInfoContext = message.queryResult.outputContexts.find(c => c.name.endsWith('userinfo'));
+  if (!userInfoContext)
+    return 'No user info context set';
+  
+  const getTasksResult = await taskService.getUserTasks(userInfoContext.parameters.userId);
+
+  if (getTasksResult.Error)
+    return service.errorMessage;
+
+  const nextTask = service.getNextTask(getTasksResult);
+
+  if (!nextTask)
+    return 'You don\'t have any active tasks.';
+
+  nextTask.taskCompleted = true;
+
+  const updateTaskResult = await taskService.updateTask(nextTask);
+
+  if (updateTaskResult.Error)
+    return service.errorMessage;
+
+  const responses = [
+    'Well done!',
+    'One step further from those zombies.',
+    'Ok, I\'ve marked it as completed for you.'
+  ];
+  const randomResponseIndex = Math.floor(Math.random() * 3) + 1;
+
+  return responses[randomResponseIndex - 1];
 };
 
 service.generateChatbotResponse = (responseMessage) => {
