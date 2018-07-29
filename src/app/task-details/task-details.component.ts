@@ -28,6 +28,7 @@ export class TaskDetailsComponent implements OnInit {
   ngOnInit() {
     this.task = new Task(this.data.task.id,
       this.data.task.dueDate,
+      this.data.task.penaltyDate,
       this.data.task.description,
       this.data.task.taskPriority,
       this.data.task.taskDetail,
@@ -63,9 +64,11 @@ export class TaskDetailsComponent implements OnInit {
 
 
 updateTaskInfo(){
+    this.task.penaltyDate = this.task.dueDate;
     this.httpService.updateTask(this.task).subscribe(task => {
       this.data.task.id = task.id;
       this.data.task.dueDate = task.dueDate;
+      this.data.task.penaltyDate = task.penaltyDate;
       this.data.task.description = task.description;
       this.data.task.taskPriority = task.taskPriority;
       this.data.task.taskDetail = task.taskDetail;

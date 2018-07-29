@@ -7,8 +7,10 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 import { TaskDetailsComponent } from '../task-details/task-details.component';
 
 import { Task } from '../model/task';
+import { User } from '../model/user';
 
 import { AuthService } from '../auth.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-task-list',
@@ -24,6 +26,7 @@ export class TaskListComponent implements OnInit {
   newTaskDetail: string = "";
   newTaskCompleted: boolean;
   newTaskvoiceReminder: boolean;
+  taskUser = new User(null, null, null, null, null, null, null);
 
   constructor(
     private httpService: HttpService,
@@ -35,9 +38,12 @@ export class TaskListComponent implements OnInit {
   ngOnInit() {
     if(this.authService.isAuthenticated){
       let currentUserId = JSON.parse(localStorage.getItem('currentUser')).userId;
+      this.taskUser.userId = currentUserId;
+      this.httpService.getOrCreateUser(this.taskUser).subscribe(user => this.taskUser = user);
       this.httpService.getUserTasks(currentUserId).subscribe(tasks =>  {
         this.taskList = tasks
         this.showReminders();
+        this.overDueCheck();
       });
     }
   }
@@ -45,7 +51,7 @@ export class TaskListComponent implements OnInit {
   addTask(): void {
     if (this.newTaskDescription.length === 0) return;
 
-    let newTask = new Task(null, null, this.newTaskDescription,false,this.newTaskDetail, false,false, null, false, localStorage.getItem('userId'));
+    let newTask = new Task(null, null, null, this.newTaskDescription,false,this.newTaskDetail, false,false, null, false, localStorage.getItem('userId'));
     this.httpService.addTask(newTask).subscribe(task => {
       this.taskList.push(task);
       this.newTaskDescription = "";
@@ -82,6 +88,28 @@ export class TaskListComponent implements OnInit {
     if( this.taskList.length > 0 && !hasBeenReminded){
       localStorage.setItem('hasBeenReminded', "true");
       this.snackBar.open("Keep the zombies at bay, complete a task to increase your score!", "Got it!", {duration: 5000});
+    }
+  }
+
+  overDueCheck(){
+    let observables:Array<Observable<Task>> = [];
+    this.taskList.forEach(task => {
+      let todayMoment = moment(new Date);
+      let penaltyMoment = moment(new Date(task.penaltyDate));
+      let daysDiff = todayMoment.diff(penaltyMoment, 'days');
+      
+      if(task.penaltyDate != null && daysDiff > 0){
+        this.taskUser.score = this.taskUser.score - ((daysDiff) * 10);
+        this.httpService.updateUser(this.taskUser).subscribe(user => this.taskUser);
+        task.penaltyDate = todayMoment.toDate();
+        observables.push(this.httpService.updateTask(task));
+      }
+    });
+
+    if(observables.length > 0){
+      forkJoin(observables).subscribe( () => 
+        this.snackBar.open("Some overdue tasks let the zombies get closer!", "Yikes!", {duration: 5000})
+      );
     }
   }
 
