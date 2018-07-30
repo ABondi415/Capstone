@@ -51,13 +51,16 @@
               </mat-select>
           </mat-form-field>
           <div>
-              <mat-label>Notifications</mat-label>
-              <mat-slide-toggle 
+              <!-- <mat-label>Notifications</mat-label> -->
+              <mat-slide-toggle
+                aria-label="Notifications"
                 [(ngModel)]="checked"
+                labelPosition="before"
                 (change)="changed()"
+                (dragChange)="changed()"
                 [color]="color"
                 >
-                {{ checked }}
+                Notifications: {{ checked ? 'On' : 'Off' }}
               </mat-slide-toggle>
             </div>
             <button (click)="saveUser()" mat-raised-button color="accent">Save Preferences</button>
