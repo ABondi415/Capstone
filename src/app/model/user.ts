@@ -6,6 +6,17 @@ export class User {
     public lastName: string,
     public emailAddress: string,
     public score: number,
-    public sprite: string
-  ) { }
+    public sprite: string,
+    public preferences: any
+  ) { 
+    preferences = {
+      "notifications": true
+    }
+  }
+
+  loadDefaultPreferences () {
+    this.preferences = {
+      "notifications": true
+    }
+  }
 }

@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
@@ -56,6 +57,7 @@ import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
     MatDialogModule,
     AppRoutingModule,
     MatSidenavModule,
+    MatSlideToggleModule,
     MatToolbarModule,
     MatIconModule,
     ReactiveFormsModule,

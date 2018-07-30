@@ -13,6 +13,7 @@ import { DISABLED } from '@angular/forms/src/model';
 export class ProfileComponent implements OnInit {
   userForm: FormGroup;
   userScore: number;
+  color:string = 'warn';
   
   user: User = new User(
     JSON.parse(localStorage.getItem('currentUser')).id,
@@ -21,9 +22,12 @@ export class ProfileComponent implements OnInit {
     JSON.parse(localStorage.getItem('currentUser')).lastName,
     JSON.parse(localStorage.getItem('currentUser')).emailAddress,
     JSON.parse(localStorage.getItem('currentUser')).score,
-    JSON.parse(localStorage.getItem('currentUser')).sprite
+    JSON.parse(localStorage.getItem('currentUser')).sprite,
+    JSON.parse(localStorage.getItem('currentUser')).preferences
   )
 
+  checked: boolean;
+  
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,
@@ -38,6 +42,11 @@ export class ProfileComponent implements OnInit {
       let currentUserId = JSON.parse(localStorage.getItem('currentUser')).userId;
       this.httpService.getOrCreateUser(this.user).subscribe(user => this.user = user);
     }
+    
+    if(typeof this.user.preferences === 'undefined'){
+      this.user.loadDefaultPreferences();
+    }
+    this.checked = JSON.parse(this.user.preferences).notifications
   }
 
   createForm() {
@@ -53,9 +62,15 @@ export class ProfileComponent implements OnInit {
     this.httpService.updateUser(this.user).subscribe(user => this.user);
   }
 
+  changed(){
+    let notificationsUpdate = {
+      "notifications": this.checked
+    }
+    this.user.preferences = JSON.stringify(notificationsUpdate);
+  }
+
   saveImage(){
     this.saveUser();
-
   }
 
 }

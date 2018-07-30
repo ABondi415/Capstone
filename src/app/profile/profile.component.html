@@ -33,10 +33,9 @@
           <h1>{{ user.score }} points </h1>
         </mat-card-content>
       </mat-card>
-
       <mat-card class="heroImageCard">
         <mat-card-header>
-            <mat-card-title>Hero Image</mat-card-title>
+            <mat-card-title>Preferences</mat-card-title>
           </mat-card-header>
         <mat-card-content>
       
@@ -51,9 +50,17 @@
                 <mat-option value="">None</mat-option>
               </mat-select>
           </mat-form-field>
-          <button (click)="saveImage()" mat-raised-button color="accent">Save Hero Image</button>
-          
-          
+          <div>
+              <mat-label>Notifications</mat-label>
+              <mat-slide-toggle 
+                [(ngModel)]="checked"
+                (change)="changed()"
+                [color]="color"
+                >
+                {{ checked }}
+              </mat-slide-toggle>
+            </div>
+            <button (click)="saveUser()" mat-raised-button color="accent">Save Preferences</button>
         </mat-card-content>
       </mat-card>
 
