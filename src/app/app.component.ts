@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,15 +9,16 @@ import { MatIconRegistry } from '@angular/material';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Zombie Task Scheduler';
+  @ViewChild('sidenav') sidenav;
 
-  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+  constructor(public authService: AuthService, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon(
         'menu',
         sanitizer.bypassSecurityTrustResourceUrl('assets/menu-icon.svg'));
   }
 
-  toggleSideNav(): void {
-    console.log("Toggle side nav");
-  };
+  logout(): void {
+    this.sidenav.toggle();
+    this.authService.logout();
+  }
 }

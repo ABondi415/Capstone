@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="home-content">
+    <h1>Welcome to Zombie Task Manager!</h1>
+    <div *ngIf="!authService.isAuthenticated()">
+      <p>
+          What could be more motivating than the fear of getting eaten by Zombies?  Zombie Task manager will help you stay organized and get through your tasks
+          as quickly as possible.  The more tasks you complete, the farther from the zombies you get.  Forget to complete your tasks on time and you might be a 
+          zombie's next meal.  
+        </p>
+      <p>Click below to begin!</p>
+      <button mat-raised-button (click)="authService.login()">Sign Up or Login</button>
+    </div>
+    <div *ngIf="authService.isAuthenticated()">
+      <p>
+        Welcome, {{authService.getCurrentUser().firstName}}!  To begin, add some tasks by clicking on "Task List" from the menu.  After you have added your tasks, check out the "Game"
+        to see how far away those zombies are.
+      </p>
+      <p>
+        If you need any help, the world renown zombie hunter Stan Helsing is standing by.  Click on "Chat" to speak with him.
+      </p>
+    </div>
+  </div>
+</div>

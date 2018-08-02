@@ -87,7 +87,7 @@ export class AuthService {
     this.httpService.getOrCreateUser(user).subscribe(user_profile => {
       localStorage.setItem('currentUser', JSON.stringify(user_profile));
       localStorage.setItem('hasBeenReminded', "false");
-      this.router.navigate(['/task-list'])
+      this.router.navigate(['/home'])
     });
   }
 
@@ -108,5 +108,10 @@ export class AuthService {
 
   isAuthenticated() {
     return localStorage.getItem('currentUser') != null ? true : false;
+  }
+
+  getCurrentUser() {
+    let currentUser = localStorage.getItem('currentUser');
+    return currentUser ? JSON.parse(currentUser) : null;
   }
 }

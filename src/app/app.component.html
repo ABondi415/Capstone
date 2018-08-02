@@ -1,21 +1,19 @@
 <div class="app-container">
   <mat-toolbar class="app-header" color= "primary">
-      <button mat-icon-button (click)="sidenav.toggle()">
-          <mat-icon svgIcon="menu">menu</mat-icon>
+      <button mat-icon-button (click)="sidenav.toggle()" *ngIf="authService.isAuthenticated()">
+          <mat-icon svgIcon="menu"></mat-icon>
       </button>
-
-      <h1>Welcome to {{ title }}!</h1>
-
-      <app-login></app-login>
   </mat-toolbar>
 
   <mat-sidenav-container class="app-content">
     <mat-sidenav #sidenav mode="side">
       <mat-nav-list color = "primary">
-        <a mat-list-item routerLink = "task-list">Task List</a>
-        <a mat-list-item routerLink = "chat">Chat</a>
-        <a mat-list-item routerLink = "game">Game</a>
-        <a mat-list-item routerLink = "profile">Profile</a>
+        <a mat-list-item routerLink="home">Home</a>
+        <a mat-list-item routerLink="task-list">Task List</a>
+        <a mat-list-item routerLink="chat">Chat</a>
+        <a mat-list-item routerLink="game">Game</a>
+        <a mat-list-item routerLink="profile">Profile</a>
+        <a mat-list-item (click)="logout()">Logout</a>
       </mat-nav-list>
     </mat-sidenav>
 

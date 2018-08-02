@@ -5,7 +5,6 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-
 // Angular Material Modules
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
@@ -33,6 +32,7 @@ import { ProfileComponent } from './profile/profile.component';
 // Services
 import { AuthService } from './auth.service';
 import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
@@ -43,7 +43,8 @@ import { ChatWidgetComponent } from './chat-widget/chat-widget.component';
     LoginComponent,
     ChatWidgetComponent,
     TaskDetailsComponent,
-    ProfileComponent
+    ProfileComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

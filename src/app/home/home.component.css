@@ -1,0 +1,23 @@
+.container {
+  display: grid;
+  width: 50%;
+  height: calc(100vh - 184px);
+  margin: 20px auto;
+}
+
+.home-content {
+  grid-template-rows: auto;
+}
+
+.home-content > h1 {
+  color: #74a654;
+  font-size: 2.5em;
+}
+
+.home-content p {
+  font-size: 1.5em;
+}
+
+.home-content button {
+  font-size: 1.5em;
+}

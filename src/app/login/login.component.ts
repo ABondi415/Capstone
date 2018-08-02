@@ -7,15 +7,11 @@ import { AuthService } from '../auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   isAuthenticated: boolean;
 
   constructor(
     public auth: AuthService,
   ) { }
-
-  ngOnInit() {
-    // this.isAuthenticated = this.auth.isAuthenticated();
-  }
 
 }
