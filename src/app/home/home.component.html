@@ -12,7 +12,7 @@
     </div>
     <div *ngIf="authService.isAuthenticated()">
       <p>
-        Welcome, {{authService.getCurrentUser().firstName}}!  To begin, add some tasks by clicking on "Task List" from the menu.  After you have added your tasks, check out the "Game"
+        Welcome, {{getName()}}!  To begin, add some tasks by clicking on "Task List" from the menu.  After you have added your tasks, check out the "Game"
         to see how far away those zombies are.
       </p>
       <p>

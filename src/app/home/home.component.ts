@@ -8,9 +8,16 @@ import { AuthService } from '../auth.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(public authService: AuthService,) { }
+  constructor(public authService: AuthService) { }
 
   ngOnInit() {
   }
 
+  getName(): string {
+    let firstName = this.authService.getCurrentUser().firstName;
+    if (!firstName || firstName.length === 0)
+      return "Zombie Hunter";
+    
+    return firstName;
+  }
 }
