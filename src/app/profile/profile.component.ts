@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators , FormsModule, NgForm } from '@angular/forms';  
+import { FormBuilder, FormGroup } from '@angular/forms';  
 import { HttpService } from '../http.service';
 import { AuthService } from '../auth.service';
 import { User } from '../model/user'
-import { DISABLED } from '@angular/forms/src/model';
 
 @Component({
   selector: 'app-profile',

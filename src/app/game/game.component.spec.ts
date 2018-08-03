@@ -3,20 +3,32 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { GameComponent } from './game.component';
 
 import { RouterTestingModule } from '@angular/router/testing'
+import { HttpClient } from '@angular/common/http';
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpService } from '../http.service';
 
 describe('GameComponent', () => {
   let component: GameComponent;
   let fixture: ComponentFixture<GameComponent>;
 
-  beforeEach(async(() => {
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
+  
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [GameComponent],
+      providers: [
+        HttpService
+      ],
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        HttpClientTestingModule
       ]
-    })
-    .compileComponents();
-  }));
+    });
+
+    httpClient = TestBed.get(HttpClient);
+    httpTestingController = TestBed.get(HttpTestingController);
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GameComponent);
