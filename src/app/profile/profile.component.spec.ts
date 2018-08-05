@@ -56,7 +56,7 @@ describe('ProfileComponent', () => {
       emailAddress: 'testuser@test.com',
       score:  0,
       sprite: null,
-      preferences: '{ "notifications": false }'
+      receiveNotifications: false
     };
     localStorage.setItem('currentUser', JSON.stringify(user));
     restoreConsole = mockConsole();

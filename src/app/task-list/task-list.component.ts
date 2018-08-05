@@ -26,7 +26,7 @@ export class TaskListComponent implements OnInit {
   newTaskDetail: string = "";
   newTaskCompleted: boolean;
   newTaskvoiceReminder: boolean;
-  taskUser = new User(null, null, null, null, null, null, null, null);
+  taskUser = new User(null, null, null, null, null, null, null, false);
 
   constructor(
     private httpService: HttpService,
@@ -40,10 +40,6 @@ export class TaskListComponent implements OnInit {
       let currentUserId = JSON.parse(localStorage.getItem('currentUser')).userId;
       this.taskUser.userId = currentUserId;
       this.httpService.getOrCreateUser(this.taskUser).subscribe(user => this.taskUser = user);
-
-      if(typeof this.taskUser.preferences === 'undefined'){
-        this.taskUser.loadDefaultPreferences();
-      }
 
       this.httpService.getUserTasks(currentUserId).subscribe(tasks =>  {
         this.taskList = tasks
@@ -89,9 +85,10 @@ export class TaskListComponent implements OnInit {
   }
 
   showReminders(){
-    let hasBeenReminded: boolean = JSON.parse(localStorage.getItem('hasBeenReminded')) === "true";
-    let notifyMe: boolean = (JSON.parse(this.taskUser.preferences)).notifications;
-    if( this.taskList.length > 0 && !hasBeenReminded && notifyMe){
+    let hasBeenReminded: boolean = localStorage.getItem('hasBeenReminded') === "true";
+    let notifyMe: boolean = this.taskUser.receiveNotifications;
+
+    if(this.taskList.length > 0 && !hasBeenReminded && notifyMe){
       localStorage.setItem('hasBeenReminded', "true");
       this.snackBar.open("Keep the zombies at bay, complete a task to increase your score!", "Got it!", {duration: 5000});
     }

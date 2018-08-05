@@ -14,7 +14,7 @@ import { Task } from '../model/task';
 })
 export class TaskDetailsComponent implements OnInit {
   task: Task;
-  taskUser = new User(null, null, null, null, null, null, null, null);
+  taskUser = new User(null, null, null, null, null, null, null, false);
 
   constructor(public dialogRef: MatDialogRef<TaskDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,

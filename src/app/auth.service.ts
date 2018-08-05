@@ -85,7 +85,7 @@ export class AuthService {
     localStorage.setItem('profile', JSON.stringify(profile));
     localStorage.setItem('userId', profile.sub);
 
-    let user = new User(null, profile.sub, profile.given_name, profile.family_name, profile.email, 0, null, null);
+    let user = new User(null, profile.sub, profile.given_name, profile.family_name, profile.email, 0, null, false);
     this.httpService.getOrCreateUser(user).subscribe(user_profile => {
       localStorage.setItem('currentUser', JSON.stringify(user_profile));
       localStorage.setItem('hasBeenReminded', "false");

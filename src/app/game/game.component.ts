@@ -23,7 +23,7 @@ export class GameComponent implements OnInit {
   taskList: Array<Task> = [];
 
   //set up a gameUser
-  gameUser = new User(null, null, null, null, null, null, 'greenSmile', null);
+  gameUser = new User(null, null, null, null, null, null, 'greenSmile', false);
 
   gameDataLoaded = false;
       //set tags to handle duplicate location
