@@ -4,6 +4,7 @@ import { environment } from '../environments/environment';
 import { HttpService } from '../app/http.service';
 import Auth0Lock from 'auth0-lock';
 import { User } from './model/user';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class AuthService {
@@ -11,6 +12,9 @@ export class AuthService {
   private accessToken: any;
   private userProfile: any;
   private authenticated: boolean = false;
+
+  private authSubject: Subject<string> = new Subject<string>();
+  authObservable = this.authSubject.asObservable();
 
   auth0Options = {
     auth: {
@@ -31,7 +35,6 @@ export class AuthService {
     this.auth0Options
   );
 
- 
   constructor(
     private httpService: HttpService,
     private router: Router
@@ -49,7 +52,6 @@ export class AuthService {
       });
     }
   
-
   login() {
     // Auth0 authorize request
     this.lock.show();
@@ -87,7 +89,8 @@ export class AuthService {
     this.httpService.getOrCreateUser(user).subscribe(user_profile => {
       localStorage.setItem('currentUser', JSON.stringify(user_profile));
       localStorage.setItem('hasBeenReminded', "false");
-      this.router.navigate(['/home'])
+      this.router.navigate(['/home']);
+      this.authSubject.next('login');
     });
   }
 
@@ -95,9 +98,11 @@ export class AuthService {
     localStorage.removeItem('profile');
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
-    localStorage.removeItem('currentUser')
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('hasBeenReminded');
     this.authenticated = false;
     this.router.navigate(['/']);
+    this.authSubject.next('logout');
   }
 
   get isLoggedIn(): boolean {
