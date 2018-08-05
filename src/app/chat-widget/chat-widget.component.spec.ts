@@ -39,6 +39,18 @@ describe('ChatWidgetComponent', () => {
   });
 
   beforeEach(() => {
+    let user = {
+      id: '1234',
+      userId: 'a1234',
+      firstName: 'Test',
+      lastName: 'User',
+      emailAddress: 'testuser@test.com',
+      score:  0,
+      sprite: null,
+      preferences: '{ "notifications": false }'
+    };
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    
     fixture = TestBed.createComponent(ChatWidgetComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

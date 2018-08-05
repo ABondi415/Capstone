@@ -61,7 +61,23 @@ describe('Chatbot Service', () => {
       'queryResult': {
         'parameters': {
           'taskDescription': 'test'
-        }
+        },
+        'outputContexts': [
+          {
+            'lifespanCount': 5,
+            'name': 'projects/penn-state-capstone/agent/sessions/b0cfde40-983d-11e8-a226-4167599c7105/contexts/userinfo',
+            'parameters': {
+              'emailAddress': 'testuser@test.com',
+              'firstName': 'Test',
+              'id': '12345',
+              'lastName': 'User',
+              'score': 0,
+              'taskDescription': 'Test task',
+              'taskDescription.original': 'Test task',
+              'userId': '12345'
+            }
+          }
+        ]
       }
     };
 
@@ -78,7 +94,23 @@ describe('Chatbot Service', () => {
         },
         'parameters': {
           'taskDescription': 'test task'
-        }
+        },
+        'outputContexts': [
+          {
+            'lifespanCount': 5,
+            'name': 'projects/penn-state-capstone/agent/sessions/b0cfde40-983d-11e8-a226-4167599c7105/contexts/userinfo',
+            'parameters': {
+              'emailAddress': 'testuser@test.com',
+              'firstName': 'Test',
+              'id': '12345',
+              'lastName': 'User',
+              'score': 0,
+              'taskDescription': 'Test task',
+              'taskDescription.original': 'Test task',
+              'userId': '12345'
+            }
+          }
+        ]
       }
     };
 

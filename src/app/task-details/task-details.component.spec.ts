@@ -8,6 +8,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Task } from '../model/task';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { AuthService } from '../auth.service';
 
 describe('TaskDetailsComponent', () => {
   let component: TaskDetailsComponent;
@@ -20,7 +21,6 @@ describe('TaskDetailsComponent', () => {
         TaskDetailsComponent
       ],
       providers: [
-        HttpService,
         {
           provide: MatDialogRef,
           useValue: {}
@@ -29,10 +29,9 @@ describe('TaskDetailsComponent', () => {
           provide: MAT_DIALOG_DATA,
           useValue: { task: testTask }
         },
-        {
-          provide: MatSnackBar,
-          useValue: {}
-        }
+        HttpService,
+        AuthService,
+        MatSnackBar
       ],
       imports: [
         FormsModule,
@@ -53,6 +52,18 @@ describe('TaskDetailsComponent', () => {
   }));
 
   beforeEach(() => {
+    let user = {
+      id: '1234',
+      userId: 'a1234',
+      firstName: 'Test',
+      lastName: 'User',
+      emailAddress: 'testuser@test.com',
+      score:  0,
+      sprite: null,
+      preferences: '{ "notifications": false }'
+    };
+    localStorage.setItem('currentUser', JSON.stringify(user));
+
     fixture = TestBed.createComponent(TaskDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
