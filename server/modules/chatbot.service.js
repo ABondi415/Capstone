@@ -205,6 +205,9 @@ service.generateChatbotResponse = (responseMessage) => {
 service.createChatbotSession = async (user) => {
   if (!user)
     return null;
+  
+  if (!user.firstName)
+    user.firstName = user.emailAddress.split('@')[0];
 
   const projectId = appEnvService.getVariable('PROJECT_ID');
   const sessionId = service.generateSessionId();

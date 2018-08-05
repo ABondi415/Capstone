@@ -23,7 +23,7 @@ export class GameComponent implements OnInit {
   taskList: Array<Task> = [];
 
   //set up a gameUser
-  gameUser = new User(null, null, null, null, null, null, 'greenSmile', false);
+  gameUser = new User(null, null, null, null, null, null, null, false);
 
   gameDataLoaded = false;
       //set tags to handle duplicate location
@@ -61,13 +61,18 @@ export class GameComponent implements OnInit {
 
       forkJoin(service1, service2)
         .subscribe (([tasks,user]) => {
-            this.taskList = tasks;
-            this.gameUser = user;
-            this.gameDataLoaded = true;
+          this.taskList = tasks;
+          this.gameUser = user;
+          if (!this.gameUser.firstName)
+            this.gameUser.firstName = user.emailAddress.split('@')[0];
+          
+          if (!this.gameUser.sprite)
+            this.gameUser.sprite = 'greenSmile';
+
+          this.gameDataLoaded = true;
+          this.refreshCanvas();
         }); 
     }
-
-
   }
 
   //draw on the canvas
