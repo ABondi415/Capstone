@@ -1,8 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpService } from '../http.service';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import {MatSnackBar} from '@angular/material/snack-bar';
-
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { AuthService } from '../auth.service';
 import { User } from '../model/user';
 
@@ -16,7 +14,7 @@ import { Task } from '../model/task';
 })
 export class TaskDetailsComponent implements OnInit {
   task: Task;
-  taskUser = new User(null, null, null, null, null, null, null, null);
+  taskUser = new User(null, null, null, null, null, null, null, false);
 
   constructor(public dialogRef: MatDialogRef<TaskDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,

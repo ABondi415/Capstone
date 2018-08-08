@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators , FormsModule, NgForm } from '@angular/forms';  
+import { FormBuilder, FormGroup } from '@angular/forms';  
 import { HttpService } from '../http.service';
 import { AuthService } from '../auth.service';
 import { User } from '../model/user'
-import { DISABLED } from '@angular/forms/src/model';
 
 @Component({
   selector: 'app-profile',
@@ -23,7 +22,7 @@ export class ProfileComponent implements OnInit {
     JSON.parse(localStorage.getItem('currentUser')).emailAddress,
     JSON.parse(localStorage.getItem('currentUser')).score,
     JSON.parse(localStorage.getItem('currentUser')).sprite,
-    JSON.parse(localStorage.getItem('currentUser')).preferences
+    JSON.parse(localStorage.getItem('currentUser')).receiveNotifications
   )
 
   checked: boolean;
@@ -42,11 +41,8 @@ export class ProfileComponent implements OnInit {
       let currentUserId = JSON.parse(localStorage.getItem('currentUser')).userId;
       this.httpService.getOrCreateUser(this.user).subscribe(user => this.user = user);
     }
-    
-    if(typeof this.user.preferences === 'undefined'){
-      this.user.loadDefaultPreferences();
-    }
-    this.checked = JSON.parse(this.user.preferences).notifications
+
+    this.checked = this.user.receiveNotifications;
   }
 
   createForm() {
@@ -62,11 +58,8 @@ export class ProfileComponent implements OnInit {
     this.httpService.updateUser(this.user).subscribe(user => this.user);
   }
 
-  changed(){
-    let notificationsUpdate = {
-      "notifications": this.checked
-    }
-    this.user.preferences = JSON.stringify(notificationsUpdate);
+  changed() {
+    this.user.receiveNotifications = this.checked;
   }
 
   saveImage(){
