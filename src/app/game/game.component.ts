@@ -2,7 +2,9 @@ import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Observable, forkJoin } from 'rxjs';
+import { MatDialog } from '@angular/material';
 
+import { TaskDetailsComponent } from '../task-details/task-details.component';
 import { HttpService } from '../http.service';
 import { AuthService } from '../auth.service';
 import { Task } from '../model/task';
@@ -46,11 +48,40 @@ export class GameComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private httpService: HttpService,
-    private authService: AuthService
+    private authService: AuthService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
 
+    // get the user and task data
+    if(this.authService.isAuthenticated){
+      let currentUserId = JSON.parse(localStorage.getItem('currentUser')).userId;
+      this.gameUser.userId = currentUserId;
+
+      let service1 = this.httpService.getUserTasks(currentUserId);
+      let service2 = this.httpService.getOrCreateUser(this.gameUser);
+
+      forkJoin(service1, service2)
+        .subscribe (([tasks,user]) => {
+          this.taskList = tasks;
+          this.gameUser = user;
+          if (!this.gameUser.firstName)
+            this.gameUser.firstName = user.emailAddress.split('@')[0];
+          
+          if (!this.gameUser.sprite)
+            this.gameUser.sprite = 'greenSmile';
+
+          this.gameDataLoaded = true;
+          this.refreshCanvas();
+        }); 
+    }
+  }
+
+  refreshData(stage){
+    stage.clear();
+    stage.removeAllChildren();
+    stage.removeAllEventListeners();
     // get the user and task data
     if(this.authService.isAuthenticated){
       let currentUserId = JSON.parse(localStorage.getItem('currentUser')).userId;
@@ -80,6 +111,7 @@ export class GameComponent implements OnInit {
 
     stage.clear();
     stage.removeAllChildren();
+    stage.removeAllEventListeners();
 
     this.generateHero(stage);
 
@@ -131,7 +163,7 @@ export class GameComponent implements OnInit {
         var heroBitmap = new createjs.Bitmap(heroImg.src);
         heroBitmap.x = 10;
         heroBitmap.y = 150;
-        heroBitmap.addEventListener("click", function(heroEvent) {alert("clicked Hero");});
+        //heroBitmap.addEventListener("click", function(heroEvent) {alert("clicked Hero");});
         stage.addChild(heroBitmap);
         stage.update()
       }
@@ -143,11 +175,23 @@ export class GameComponent implements OnInit {
     var enemyImg = new Image()
     enemyImg.src = this.getImgSrc(imgName);
 
+    var that = this;
     enemyImg.onload = function() {
       var enemyBitmap = new createjs.Bitmap(enemyImg);
       enemyBitmap.x = x;
       enemyBitmap.y = 150;
-      enemyBitmap.addEventListener("click", function(enemyEvent) {alert("clicked Enemy "+ task.description);});
+      var theOther = that;
+      enemyBitmap.addEventListener("click", function(enemyEvent) {
+        //alert("clicked Enemy "+ task.description);
+        let dialogRef = theOther.dialog.open(TaskDetailsComponent, {
+          width: '500px',
+          data: { task: task }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          theOther.refreshData(stage);
+        });
+        
+      });
       stage.addChild(enemyBitmap);
       stage.update()
     }
