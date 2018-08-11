@@ -104,7 +104,7 @@ export class GameComponent implements OnInit {
 
         if ((this.taskList[i].taskCompleted != true) && (spriteName != "") && (diffDays > 0) && (diffDays < 8)) {
           var x = this.getImgLoc(diffDays);
-          this.generateEnemy(stage, spriteName, x);
+          this.generateEnemy(stage, spriteName, x, this.taskList[i]);
         }  
       }
     }
@@ -138,7 +138,7 @@ export class GameComponent implements OnInit {
   }
 
 
-  generateEnemy(stage, imgName:string, x:number) {
+  generateEnemy(stage, imgName:string, x:number, task:Task) {
     //draw the enemy image
     var enemyImg = new Image()
     enemyImg.src = this.getImgSrc(imgName);
@@ -147,7 +147,7 @@ export class GameComponent implements OnInit {
       var enemyBitmap = new createjs.Bitmap(enemyImg);
       enemyBitmap.x = x;
       enemyBitmap.y = 150;
-      enemyBitmap.addEventListener("click", function(enemyEvent) {alert("clicked Enemy");});
+      enemyBitmap.addEventListener("click", function(enemyEvent) {alert("clicked Enemy "+ task.description);});
       stage.addChild(enemyBitmap);
       stage.update()
     }
