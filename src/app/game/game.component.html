@@ -1,10 +1,29 @@
 <div class="container">
-    <div>
-        <p>Current User Name: {{gameUser.firstName}}</p>
-        <p>Score: {{gameUser.score}}</p>
-        <p>Image: {{gameUser.sprite}}</p>
+    
+    <div layout="row" layout-wrap style="display: flex">
+        <mat-card class="gameInfo">
+            <mat-card-title>My Game Information</mat-card-title>
+            <mat-card-content>
+                <p>Current User Name: {{gameUser.firstName}}</p>
+                <p>Score: {{gameUser.score}}</p>
+                <p>Hero Image: {{gameUser.sprite}}</p>
+            </mat-card-content> 
+        </mat-card>
+        <mat-card class="gameInstructions">
+            <mat-card-title>Using the Game View</mat-card-title>
+            <mat-card-content>
+                <p>Welcome to the Zombie Game View!</p>
+                <p>Your hero image is on the left. Zombies are approaching from the right. Click on an enemy image to view task details.</p>
+                <p>Upcoming incomplete tasks for the next seven days are shown.</p>
+                <p>To remove a task from this display, change the task image to "none".</p>
+            </mat-card-content>
+        </mat-card>
     </div>
+
     <br/>
-    <canvas #canvasEl width=800 height=200></canvas>
+
+    <mat-card class = "gameCanvas">
+        <canvas #canvasEl width=800 height=200></canvas>
+    </mat-card>
 </div>
 

@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Observable, forkJoin } from 'rxjs';
 import { MatDialog } from '@angular/material';
+import {MatCardModule} from '@angular/material/card';
 
 import { TaskDetailsComponent } from '../task-details/task-details.component';
 import { HttpService } from '../http.service';

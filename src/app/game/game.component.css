@@ -8,3 +8,15 @@
 canvas {
   border:3px solid #74a654;
 }
+
+.gameInfo {
+  width: 252px;
+}
+
+.gameInstructions {
+  width: 510px;
+}
+
+.gameCanvas{
+  width:810px;
+}
