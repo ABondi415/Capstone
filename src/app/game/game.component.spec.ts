@@ -1,6 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GameComponent } from './game.component';
+import { MatDialog } from '@angular/material';
+import {MatCardModule} from '@angular/material/card';
+import { FormsModule } from '@angular/forms';
+
+import { TaskDetailsComponent } from '../task-details/task-details.component';
+import { MatDialogModule, MatFormFieldModule, MatListModule, MatInputModule, MatCheckboxModule, MatOptionModule, MatSelectModule, MatSnackBarModule } from '@angular/material';
 
 import { RouterTestingModule } from '@angular/router/testing'
 import { HttpClient } from '@angular/common/http';
@@ -16,15 +22,24 @@ describe('GameComponent', () => {
   
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [GameComponent],
+      declarations: [GameComponent, TaskDetailsComponent],
       providers: [
-        HttpService
-      ],
+        HttpService],
       imports: [
+        FormsModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatListModule,
+        MatCheckboxModule,
+        MatOptionModule,
+        MatSelectModule,
+        MatSnackBarModule,
         RouterTestingModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        MatCardModule
       ]
-    });
+    }).compileComponents();;
 
     httpClient = TestBed.get(HttpClient);
     httpTestingController = TestBed.get(HttpTestingController);
